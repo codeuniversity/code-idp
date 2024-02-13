@@ -1,0 +1,27 @@
+services:
+  backstage_demo:
+    container_name: backstage_app_demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-backstage_pg_db}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+    ports:
+      - 7007:7007
+  pg_db:
+    container_name: backstage_pg_db
+    image: postgres:15.4
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+
+volumes:
+  postgres:
+
