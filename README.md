@@ -1,14 +1,4 @@
 # [Backstage](https://backstage.io)
-
-This is your newly scaffolded Backstage App, Good Luck!
-
-To start the app, run:
-
-```sh
-yarn install
-yarn dev
-```
-
 IMPORTANT:
 if you use docker you need a .env file
 
