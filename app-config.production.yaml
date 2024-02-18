@@ -1,6 +1,6 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
-  baseUrl: http://localhost:7007
+  baseUrl: https://backstage.laurinnotemann.dev 
 
 backend:
   # Note that the baseUrl should be the URL that the browser and other clients
@@ -33,3 +33,12 @@ catalog:
   # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
   # on how to get entities into the catalog.
   locations: []
+
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers: 
+    github:
+      development:
+        clientId:  ${GH_CLIENT_ID} 
+        clientSecret: ${GH_CLIENT_SECRET}
