@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: notemann27/backstage:0.0.1
+          image: notemann27/backstage:latest
           imagePullPolicy: Always
           ports:
             - name: http
