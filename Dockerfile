@@ -31,6 +31,10 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 COPY --chown=node:node . .
 
+RUN ls
+
+RUN ls /app
+
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
 # If you have not yet migrated to package roles, use the following command instead:
@@ -68,6 +72,7 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 # Copy the built packages from the build stage
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
+COPY --from=build --chown=node:node /app/examples ./examples/
 
 # Copy any other files that we need at runtime
 COPY --chown=node:node app-config.yaml ./

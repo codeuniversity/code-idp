@@ -92,15 +92,20 @@ catalog:
       rules:
         - allow: [User, Group]
 
+    - type: url
+      target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
+      rules:
+        - allow: [Template]
+
     ## Uncomment these lines to add more example data
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+    - type: url
+      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
 
     ## Uncomment these lines to add an example org
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-    #   rules:
-    #     - allow: [User, Group]
+    - type: url
+      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
+      rules:
+        - allow: [User, Group]
 
 kubernetes:
   serviceLocatorMethod:
@@ -118,3 +123,11 @@ kubernetes:
           dashboardApp: standard
           caData: ${K8S_CA_DATA}
 
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers: 
+    github:
+      development:
+        clientId:  ${GITHUB_CLIENT_ID} 
+        clientSecret: ${GITHUB_CLIENT_SECRET}
