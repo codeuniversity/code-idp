@@ -6,6 +6,15 @@ if you use docker you need a .env file
 cp .env.example .env
 ```
 
+```sh 
+cp .example.app-config.local.yaml app-config.local.yaml
+```
+
+IMPORTANT: to setup Github follow this guide and change the GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET values in the .env
+
+https://backstage.io/docs/getting-started/configuration
+
+
 to run in docker (this takes up to 3-5 mins):
 ```sh 
 docker compose up -d --build
