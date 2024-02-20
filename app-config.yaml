@@ -35,7 +35,6 @@ backend:
       user: ${POSTGRES_USER} 
       password: ${POSTGRES_PASSWORD}
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-
 integrations:
   github:
     - host: github.com
@@ -101,3 +100,12 @@ catalog:
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
     #   rules:
     #     - allow: [User, Group]
+
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers: 
+    github:
+      development:
+        clientId:  ${GITHUB_CLIENT_ID} 
+        clientSecret: ${GITHUB_CLIENT_SECRET}
