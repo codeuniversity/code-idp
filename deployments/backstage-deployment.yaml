@@ -14,6 +14,7 @@ spec:
       labels:
         app: backstage
     spec:
+      # serviceAccountName: staging-rem-backend-service-acc
       containers:
         - name: backstage
           image: notemann27/backstage:latest

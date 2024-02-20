@@ -1,9 +1,11 @@
 services:
-  backstage_demo:
-    container_name: backstage_app_demo
+  backstage_app:
+    container_name: backstage_app
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        APP_ENV: docker
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST:-backstage_pg_db}
       POSTGRES_PORT: ${POSTGRES_PORT:-5432}
@@ -12,14 +14,15 @@ services:
       K8S_URL: ${K8S_URL}
       K8S_ACCOUNT_TOKEN: ${K8S_ACCOUNT_TOKEN}
       K8S_CA_DATA: ${K8S_CA_DATA}
+      K8S_CA_FILE: ${K8S_CA_FILE}
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       BASE_URL: ${BASE_URL}
     ports:
       - 7007:7007
-  pg_db:
-    container_name: backstage_pg_db
+  backstage_postgres:
+    container_name: backstage_postgres
     image: postgres:15.4
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}

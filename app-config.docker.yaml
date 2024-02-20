@@ -71,4 +71,3 @@ kubernetes:
           skipMetricsLookup: true
           serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
           caData: ${K8S_CA_DATA}
-          caFile: ${K8S_CA_FILE}

@@ -14,7 +14,7 @@
     "test": "backstage-cli package test",
     "clean": "backstage-cli package clean",
     "build-image": "docker build ../.. -f Dockerfile --tag backstage",
-    "build-image-amd64": "docker buildx build --platform linux/amd64 ../.. -f ../../Dockerfile --tag notemann27/backstage --push"
+    "build-image-amd64-push-notemann": "docker buildx build --build-arg APP_ENV=production --platform linux/amd64 ../.. -f ../../Dockerfile --tag notemann27/backstage --push"
   },
   "dependencies": {
     "@backstage/backend-common": "^0.20.1",
