@@ -97,6 +97,9 @@ catalog:
       rules:
         - allow: [Template]
 
+    - type: url
+      target: https://github.com/Laurin-Notemann/tennis-analysis/blob/master/catalog-info.yaml
+
     ## Uncomment these lines to add more example data
     - type: url
       target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
@@ -107,9 +110,18 @@ catalog:
       rules:
         - allow: [User, Group]
 
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers: 
+    github:
+      development:
+        clientId:  ${GITHUB_CLIENT_ID} 
+        clientSecret: ${GITHUB_CLIENT_SECRET}
+
 kubernetes:
   serviceLocatorMethod:
-    type: singleTenant
+    type: multiTenant
   clusterLocatorMethods:
     - type: config
       clusters:
@@ -119,15 +131,6 @@ kubernetes:
           skipTLSVerify: false
           skipMetricsLookup: true
           serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
-          dashbaordUrl: "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
-          dashboardApp: standard
+            #dashbaordUrl: "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
+            #dashboardApp: standard
           caData: ${K8S_CA_DATA}
-
-auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
-  environment: development
-  providers: 
-    github:
-      development:
-        clientId:  ${GITHUB_CLIENT_ID} 
-        clientSecret: ${GITHUB_CLIENT_SECRET}

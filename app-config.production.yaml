@@ -37,6 +37,9 @@ catalog:
       target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
       rules:
         - allow: [Template]
+
+    - type: url
+      target: https://github.com/Laurin-Notemann/tennis-analysis/blob/master/catalog-info.yaml
     ## Uncomment these lines to add more example data
     - type: url
       target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
@@ -54,3 +57,19 @@ auth:
       production:
         clientId:  ${GITHUB_CLIENT_ID} 
         clientSecret: ${GITHUB_CLIENT_SECRET}
+
+kubernetes:
+  serviceLocatorMethod:
+    type: multiTenant
+  clusterLocatorMethods:
+    - type: config
+      clusters:
+        - url: ${K8S_URL}
+          name: "k8s"
+          authProvider: serviceAccount
+          skipTLSVerify: false
+          skipMetricsLookup: true
+          serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
+            #dashbaordUrl: "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
+            #dashboardApp: standard
+          caData: ${K8S_CA_DATA}
