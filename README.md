@@ -31,44 +31,43 @@ POSTGRES_PASSWORD="admin"
 
 BASE_URL="http://localhost:7007"
 
-GITHUB_CLIENT_ID=""
-GITHUB_CLIENT_SECRET=""
+GITHUB_CLIENT_ID="your-id"
+GITHUB_CLIENT_SECRET="your-secret"
 
-GITHUB_TOKEN=""
+GITHUB_TOKEN="your-token"
 
-K8S_URL=""
-K8S_ACCOUNT_TOKEN=""
-K8S_CA_DATA=""
-K8S_CA_FILE=""
+K8S_URL="k8s-url"
+K8S_ACCOUNT_TOKEN="k8s-account-token"
+K8S_CA_DATA="k8s-ca-data"
+K8S_CA_FILE="k8s-ca-file"
 ```
 
 <details>
 <summary>Details to the environment variables</summary>
 <br>
 
-**POSTGRES:**
+**`POSTGRES`:**
 <br>
 All of the environment variables prefixed with POSTGRES_ should stay like they are in the .env.example for the optimal setup experince and only be changed if you know what you are doing.
 
-**BASE_URL:**
+**`BASE_URL`:**
 <br>
 Keep it the same as it is right now, this is the url on which the application is running. 
 
-**GITHUB_CLIENT:**
+**`GITHUB_CLIENT`:**
 <br>
 These environment variables are to setup correct [authentication](https://backstage.io/docs/getting-started/configuration#setting-up-authentication). Please follow [these](#github-auth) steps.
 
-**GITHUB_TOKEN:**
+**`GITHUB_TOKEN`:**
 <br>
 This environment variable is to configure the [GitHub integration](https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration), 
 so that Backstage can interact with your GitHub account and for example create a repository for you. Please follow [these](#github-integration) steps for the setup.
 
-**K8S_URL**
+**`K8S_URL`:**
+<br>
 These environment variables are to configure the [kubernetes plugin](https://backstage.io/docs/features/kubernetes/). 
 To setup you local minikube environment follow [these](#kubernetes) steps.
 </details>
-
-<br>
 
 # Setup Essentials
 The following setup steps are necessary to ensure that you have basic functionality in your app starting with
@@ -106,7 +105,7 @@ To get you GitHub integration working you need to generate yourself a new token 
 1. Go to https://github.com/settings/tokens/new
 2. Write a note (can be empty but encourged so you know what the tokens belongs to)
 3. Set an expiration date (can be unlimited just be careful not to share it or you might have to revoke it manully)
-4. Select a scope the following is enough for basic usage (may have to adjusted if you want to go beyong the basic scope
+4. Select a scope the following is enough for basic usage (may have to adjusted if you want to go beyong the basic scope)
 <img height="400" alt="img" src="./images/githubintegration.svg">
 5. Copy and paste your `GitHub Token` and paste it into the correct environment variable (`GITHUB_TOKEN`)
 
@@ -125,7 +124,7 @@ Run this command in the root directory of the project:
 ```sh
 yarn dev
 ```
-This should automatically open your browser with the currect url, otherwise open `http://127.0.0.1:3000` in your browser.
+This should automatically open your browser with the correct url, otherwise open `http://127.0.0.1:3000` in your browser.
 When you run with `yarn dev` you have hot reload on certain parts -> meaning the page in the browser will automatically update if you changed something 
 if you need to force the app to restart simply press C-c (control-c) to interrupt the program and run `yarn dev` again
 
@@ -178,7 +177,9 @@ through Backstage we need to do the following:
 1. Install `kubectl`
     <br>
     1.1 Install the correct version of `kubectl` depending on your operation system: [linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), 
-    [macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) or [windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+    [macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) or [windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/). On macOS installing with
+    homebrew is recommended by me.
+    <br>
     1.2 Quick Note about `kubectl`: `kubectl` is the cli tool that can interact with an existing Kubernetes cluster and it has different `contexts` for different cluster. 
     If this is your first time installing `kubectl` and you most likely do not have a cluster that you are connected to at this point, we will set up a local cluster with `minikube`
     in the following setup, and that will automatically set your context to the correct cluster (in this case `minikube`).
@@ -186,12 +187,13 @@ through Backstage we need to do the following:
 2. Install `minikube`
     <br>
     2.1 Follow [this guide](https://minikube.sigs.k8s.io/docs/start/#installation) to install minikube and also how to run minikube inside of a docker, make sure you install minikube for the correct system.
+    Installing on macOS with homebrew is recommended by me.
     <br>
     2.2 Start minikube clutser with `minikube start` (can take a few minutes)
     <br>
-    2.3 If you have installed kubectl, `minikube start` will automatically set your current context to the `minikube` context!
+    NOTE: If you have installed kubectl, `minikube start` will automatically set your current context to the `minikube` context!
     <br>
-    2.4 To test if the installation worked run: `kubectl get pods -A` and you should have an output similiar to this:
+    2.3 To test if the installation worked run: `kubectl get pods -A` and you should have an output similiar to this:
     ```
     NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
     kube-system   coredns-5d78c9869d-4jq4h           1/1     Running   0               9m43s
@@ -237,6 +239,7 @@ through Backstage we need to do the following:
 for now it is recommended only to run it [locally](#running-with-yarn-dev) or run in [docker](#running-with-docker-compose) to be able to run it inside of minikube read [here](#running-with-minikube)
 
 4. [Run](#running-environments) backstage (recommended [locally](#running-with-yarn-dev))
+    <br>
     NOTE: If you want to run backstage inside of the docker container you need to change the K8S_URL variable to: https://host.docker.internal:[YOUR-PORT]
     <br>
 
