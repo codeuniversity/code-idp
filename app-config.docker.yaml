@@ -12,43 +12,9 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
-      target: examples/entities.yaml
+      target: minikube/catalog-info.yaml
 
-    # Local example template
-    - type: file
-      target: examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    - type: file
-      target: examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
-    - type: file
-      target: examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
-    - type: url
-      target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
-      rules:
-        - allow: [Template]
-
-    - type: url
-      target: https://github.com/Laurin-Notemann/tennis-analysis/blob/master/catalog-info.yaml
-    ## Uncomment these lines to add more example data
-    - type: url
-      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-
-    ## Uncomment these lines to add an example org
-    - type: url
-      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-      rules:
-        - allow: [User, Group]
 
 auth:
   environment: production
@@ -57,17 +23,3 @@ auth:
       production:
         clientId:  ${GITHUB_CLIENT_ID} 
         clientSecret: ${GITHUB_CLIENT_SECRET}
-
-kubernetes:
-  serviceLocatorMethod:
-    type: multiTenant
-  clusterLocatorMethods:
-    - type: config
-      clusters:
-        - url: ${K8S_URL}
-          name: "k8s"
-          authProvider: serviceAccount
-          skipTLSVerify: false
-          skipMetricsLookup: true
-          serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
-          caData: ${K8S_CA_DATA}

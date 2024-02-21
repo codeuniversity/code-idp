@@ -39,6 +39,7 @@ GITHUB_TOKEN=""
 K8S_URL=""
 K8S_ACCOUNT_TOKEN=""
 K8S_CA_DATA=""
+K8S_CA_FILE=""
 ```
 
 <details>
@@ -170,11 +171,122 @@ The reason for having the second step is more for testing purposes because this 
 > Note again here the second step is only true if we actually host Backstage in the same cluster as the other deployments
 
 ## Setup with `minikube`
+Pre-requisite: Docker installed
+
 To setup minikube and the [Kubernetes plugin](https://backstage.io/docs/features/kubernetes/) so that we can monitor Kubernetes pods 
 through Backstage we need to do the following:
-1. Install minikube
-2. Get the necessary information to populate the env variables
-3. Run backstage (recommended [locally](#running-with-yarn-dev))
+1. Install `kubectl`
+    <br>
+    1.1 Install the correct version of `kubectl` depending on your operation system: [linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), 
+    [macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) or [windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+    1.2 Quick Note about `kubectl`: `kubectl` is the cli tool that can interact with an existing Kubernetes cluster and it has different `contexts` for different cluster. 
+    If this is your first time installing `kubectl` and you most likely do not have a cluster that you are connected to at this point, we will set up a local cluster with `minikube`
+    in the following setup, and that will automatically set your context to the correct cluster (in this case `minikube`).
+    To see all your contexts run `kubectl config get-contexts`.
+2. Install `minikube`
+    <br>
+    2.1 Follow [this guide](https://minikube.sigs.k8s.io/docs/start/#installation) to install minikube and also how to run minikube inside of a docker, make sure you install minikube for the correct system.
+    <br>
+    2.2 Start minikube clutser with `minikube start` (can take a few minutes)
+    <br>
+    2.3 If you have installed kubectl, `minikube start` will automatically set your current context to the `minikube` context!
+    <br>
+    2.4 To test if the installation worked run: `kubectl get pods -A` and you should have an output similiar to this:
+    ```
+    NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
+    kube-system   coredns-5d78c9869d-4jq4h           1/1     Running   0               9m43s
+    kube-system   etcd-minikube                      1/1     Running   0               9m56s
+    kube-system   kube-apiserver-minikube            1/1     Running   0               9m58s
+    kube-system   kube-controller-manager-minikube   1/1     Running   0               9m58s
+    kube-system   kube-proxy-8dzhs                   1/1     Running   0               9m44s
+    kube-system   kube-scheduler-minikube            1/1     Running   0               9m56s
+    kube-system   storage-provisioner                1/1     Running   1 (9m39s ago)   9m56s
+    ```
+3. Setup `minikube` for Backstage
+    <br>
+    <br>
+    **3.1 Create a service account so that backstage can access the cluster**
+    ```sh
+    kubectl apply -f minikube/clusterrolebinding.yaml
+
+    kubectl get secrets cluster-admin-secret -o jsonpath="{.data['token']}" | base64 --decode; echo
+    ```
+    copy and paste that token in the K8S_ACCOUNT_TOKEN environment variable in your .env
+    <br>
+    <br>
+    **3.2 Get the certificate authority for minikube**
+    ```sh
+    cat ~/.minikube/ca.crt | base64
+    ```
+    copy and paste that certificate in the K8S_CA_DATA environment variable in your .env
+    <br>
+    <br>
+    **3.3 Get the URL that `minikube` is running on**
+    ```sh
+    kubectl cluster-info
+    ```
+    copy and paste the first URL in the K8S_URL environment variable in your .env
+    <br>
+    <br>
+    **3.4 Run pod in `minikube` to be inspected by `Backstage`**
+    ```sh
+    kubectl apply -f minikube/test-deployment.yaml
+    ```
+    
+> NOTE: we leave the K8S_CA_FILE environment variable empty for now because that is only needed if you run Backstage in the cluster, 
+for now it is recommended only to run it [locally](#running-with-yarn-dev) or run in [docker](#running-with-docker-compose) to be able to run it inside of minikube read [here](#running-with-minikube)
+
+4. [Run](#running-environments) backstage (recommended [locally](#running-with-yarn-dev))
+    NOTE: If you want to run backstage inside of the docker container you need to change the K8S_URL variable to: https://host.docker.internal:[YOUR-PORT]
+    <br>
+
+    4.1 Click on `test-minikube`
+    <br>
+    <img height="200" alt="img" src="./images/backstage-example.svg">
+
+    4.2 Click on `Kubernetes`
+    <br>
+    <img height="150" alt="img" src="./images/backstage-kubernetes.svg">
+
+    4.3 Now you should see this:
+    <br>
+    <img height="200" alt="img" src="./images/backstage-kube-success.svg">
+    
+5. To see how you can expose your own Backstage entities follow 
+[this](https://backstage.io/docs/features/kubernetes/configuration#surfacing-your-kubernetes-components-as-part-of-an-entity) guide
 
 ## Running with `minikube` 
+Work in progress -> Not necessary for development right now.
 
+# Configuration
+To get a better understanding of how the app-config.yaml files work please refer to [this](https://backstage.io/docs/conf/writing).
+Specifically the part about the [config files](https://backstage.io/docs/conf/writing#configuration-files) is important to understand.
+
+The following explanation will go more into detail about how we use them in our project but expects you to understand how they work in general:
+
+Currently we have:
+- app-config.yaml
+- app-config.local.yaml
+- app-config.docker.yaml
+- app-config.production.yaml
+
+**`app-config.yaml`:**
+<br>
+This is the basic configuration that get applied to all of our environments and should contain the bases for all environments. 
+If you need to change something for all environments please add/delete or update them here in this file.
+
+**`app-config.local.yaml`:**
+<br>
+All attributes in this file overwrite the `app-config.yaml` attributes when you run [locally](#running-with-yarn-dev).
+Currently we are only specifing the database host and port because they slightly different in our .env file, which is designed to work for the docker compose.
+
+**`app-config.docker.yaml`:**
+<br>
+This file changes some base values that are necessary to build the correct image and it currently changes attributes such as:
+- baseUrl because the docker image bundles the frontend into the backend -> therefore we only have one 
+- auth.github because we set the NODE_ENV to production for the image 
+- catalog because it interprets the paths from local directories differently in the image
+
+**`app-config.production.yaml`:**
+<br>
+This file adds one line to the kubernetes plugin setup, which is only needed if the app is hosted inside of a kubernetes cluster.
