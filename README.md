@@ -2,6 +2,11 @@
 
 # Setup for code-idp as a developer:
 
+Prerequisites:
+
+- [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
 Clone the repository and install node_modules:
 ```sh  
 git clone https://github.com/codeuniversity/code-idp
@@ -18,7 +23,7 @@ cp .env.example .env
 cp .example.app-config.yaml app-config.local.yaml
 ```
 
-These are the two file where you can put your secrets. These file DO NOT get pushed to the GitHub repository.
+These two newly created files `.env` and ` app-config.local.yaml` are for your secrets and local configurations. These files do not get pushed to the GitHub repository and are safe to use. 
 
 # More on Environment variables
 
@@ -79,7 +84,7 @@ To start the database with docker run the following command:
 ```sh
 yarn docker:start-database
 ```
-This will create a new database container with the name `backstage_postgres` and it exposes the port 5433 <- this is done on purpose in case somebody has postgres running locally.
+This will create a new database container with the name `backstage_postgres` exposed on local port 5433. This non-standard port is chosen on purpose to not conflict with other postgres instances which may be running locally.
 
 ## GitHub Auth
 To setup you GitHub authentication follow these steps:
@@ -125,8 +130,8 @@ Run this command in the root directory of the project:
 yarn dev
 ```
 This should automatically open your browser with the correct url, otherwise open `http://127.0.0.1:3000` in your browser.
-When you run with `yarn dev` you have hot reload on certain parts -> meaning the page in the browser will automatically update if you changed something 
-if you need to force the app to restart simply press C-c (control-c) to interrupt the program and run `yarn dev` again
+
+Note that when you run with `yarn dev`, hot reload is running on certain parts of the application, meaning that the page in the browser will automatically update if you change the code.  If however you need to force the app to restart simply press C-c (control-c) to interrupt the program and run `yarn dev` again. 
 
 > Note you don't need to setup up a local `Kubernetes` environment if you do not specifically need to work with Kubernetes entities (This was written on the 20.02.2024 so possibly subject to change).
 
