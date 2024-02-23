@@ -31,6 +31,10 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 COPY --chown=node:node . .
 
+RUN ls
+
+RUN ls /app
+
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
 # If you have not yet migrated to package roles, use the following command instead:
@@ -68,12 +72,16 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 # Copy the built packages from the build stage
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
+COPY --from=build --chown=node:node /app/minikube ./minikube/
 
-# Copy any other files that we need at runtime
+ARG APP_ENV
+
+# Copy any other files that we need at runtime, to understand how the configs work refer to the README.md
 COPY --chown=node:node app-config.yaml ./
-COPY --chown=node:node app-config.production.yaml ./
+COPY --chown=node:node app-config.docker.yaml ./app-config.docker.yaml
+COPY --chown=node:node app-config.${APP_ENV}.yaml ./app-config.env.yaml
 
-# This switches many Node.js dependencies to production mode.
+# This switches many Node.js dependencies to production mode. Important APP_ENV and NODE_ENV serve two different purposes
 ENV NODE_ENV production
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
+CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.docker.yaml", "--config", "app-config.env.yaml"]

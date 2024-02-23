@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    backstage.io/kubernetes-id: test-minikube
+  name: test-minikube
+spec:
+  lifecycle: experimental
+  owner: user:guest
+  # type service is important
+  type: service

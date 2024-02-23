@@ -6,12 +6,13 @@
     "node": "18 || 20"
   },
   "scripts": {
-    "dev": "concurrently \"yarn start\" \"yarn start-backend\"",
+    "dev": "export $(cat .env | egrep -v '#|^$' | xargs) && concurrently \"yarn start\" \"yarn start-backend\"",
     "start": "yarn workspace app start",
     "start-backend": "yarn workspace backend start",
     "build:backend": "yarn workspace backend build",
     "build:all": "backstage-cli repo build --all",
     "build-image": "yarn workspace backend build-image",
+    "build-image64": "yarn workspace backend build-image-amd64-push-notemann",
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false",
     "clean": "backstage-cli repo clean",
@@ -22,6 +23,12 @@
     "lint": "backstage-cli repo lint --since origin/master",
     "lint:all": "backstage-cli repo lint",
     "prettier:check": "prettier --check .",
+    "docker:start-database": "docker compose up -d backstage_postgres",
+    "docker:run-build-backstage": "docker compose up -d --build backstage_app",
+    "docker:run-backstage": "docker compose up -d backstage_app",
+    "docker:stop-backstage": "docker compose stop backstage_app",
+    "docker:remove-backstage": "docker compose down backstage_app",
+    "docker:remove-all": "docker compose down",
     "new": "backstage-cli new --scope internal"
   },
   "workspaces": {
@@ -37,7 +44,7 @@
     "@spotify/prettier-config": "^12.0.0",
     "concurrently": "^8.0.0",
     "lerna": "^7.3.0",
-    "node-gyp": "^9.0.0",
+    "node-gyp": "^10.0.1",
     "prettier": "^2.3.2",
     "typescript": "~5.2.0"
   },
