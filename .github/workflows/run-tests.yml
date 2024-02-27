@@ -23,5 +23,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - run: yarn install
-      - run: yarn playwright test
+      - name: Install dependencies
+        run: yarn install
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps
+      - name: Run E2E tests
+        run: yarn playwright test
