@@ -1,6 +1,7 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -15,7 +16,7 @@ jobs:
 
   run-e2e-tests:
     env:
-      PLAYWRIGHT_URL: http:/localhost:3000
+      PLAYWRIGHT_URL: http://localhost:3000
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +26,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: yarn install
-      - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
+      # - name: Install Playwright Browsers
+      #   run: yarn playwright install --with-deps
       - name: Run E2E tests
-        run: yarn playwright test
+        run: yarn test:e2e
