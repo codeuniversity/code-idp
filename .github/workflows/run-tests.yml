@@ -29,6 +29,7 @@ jobs:
       - name: Run E2E tests
         env:
           PLAYWRIGHT_URL: http://localhost:3000
+          CI: 
         run: |
           echo $PLAYWRIGHT_URL
           echo $CI
