@@ -31,6 +31,7 @@ jobs:
           PLAYWRIGHT_URL: http://localhost:3000
         run: |
           echo $PLAYWRIGHT_URL
+          echo $CI
           ls
           pwd
           ls packages
