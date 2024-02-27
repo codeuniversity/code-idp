@@ -29,11 +29,6 @@ jobs:
       - name: Run E2E tests
         env:
           PLAYWRIGHT_URL: http://localhost:3000
-          CI: 
+          CI: # unset CI because it is set by default in Github actions
         run: |
-          echo $PLAYWRIGHT_URL
-          echo $CI
-          ls
-          pwd
-          ls packages
           yarn test:e2e
