@@ -14,6 +14,8 @@ jobs:
       - run: yarn test
 
   run-e2e-tests:
+    env:
+      PLAYWRIGHT_URL: http:/localhost:3000
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
