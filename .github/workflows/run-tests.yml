@@ -24,11 +24,11 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: yarn install
-      - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
+      #- name: Install Playwright Browsers
+      #  run: yarn playwright install --with-deps
       - name: Run E2E tests
         env:
-          PLAYWRIGHT_URL: http://localhost:3000
+          PLAYWRIGHT_URL: http://localhost:3000 # set the URL of the app to test with playwright
           CI: # unset CI because it is set by default in Github actions
         run: |
           yarn test:e2e
