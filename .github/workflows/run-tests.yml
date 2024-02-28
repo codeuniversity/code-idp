@@ -1,7 +1,8 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Test and E2E tests
+run-name: Run tests and E2E tests
 
+on: [push]
+test
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -17,12 +18,12 @@ jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4 #chekcout te repository
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3 #setup node version 20
         with:
           node-version: '20'
-      - name: Install dependencies
+      - name: Install dependencies #install dependencies
         run: yarn install
       #- name: Install Playwright Browsers
       #  run: yarn playwright install --with-deps
