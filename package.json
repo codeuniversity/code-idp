@@ -31,6 +31,10 @@
     "docker:remove-all": "docker compose down",
     "new": "backstage-cli new --scope internal"
   },
+  "pre-commit": [
+    "yarn test",
+    "yarn e2e-test"
+  ],
   "workspaces": {
     "packages": [
       "packages/*",
@@ -62,4 +66,5 @@
       "prettier --write"
     ]
   }
+
 }
