@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '20'
       - run: yarn install
-      - run: yarn test
+      - run: yarn backstage-cli repo test
 
   run-e2e-tests:
     runs-on: ubuntu-latest
