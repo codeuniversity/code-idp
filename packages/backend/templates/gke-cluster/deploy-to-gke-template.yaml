@@ -1,0 +1,109 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
+kind: Template
+metadata:
+  name: GKE-cluster
+  title: Node.js App on GKE Cluster
+  description: Deploy a newly created Node.js App on GKE Cluster using terraform
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+      properties:
+        name:
+          title: Application name
+          type: string
+          description: Unique name of your application
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Choose a repo location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+    - title: Basic GKE Cluster Configuration
+      required:
+        - clusterName
+        - region
+        - action
+      properties:
+        clusterName:
+          title: ClusterName
+          type: string
+          description: The name of your GKE cluster
+          ui:autofocus: true
+        region:
+          title: EKG region
+          type: string
+          description: The GKE region where the cluster will be deployed
+          enum:
+            - europe-west3
+        action:
+          title: Action
+          type: string
+          description: Action to perform (apply/destroy)
+          enum:
+            - apply
+            - destroy
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          name: ${{ parameters.name }}
+
+    # This step publishes the contents of the working directory to GitHub.
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+    # Start a github Action to build a GKE cluster with Terraform
+    - id: github-action
+      name: Trigger Github Action
+      action: github:action:dispatch
+      input:
+        workflowId: manage-gke-cluster.yml
+        repoUrl: https://github.com/MennaTullahTaha/gke_with_terraform
+        branchOrTagName: 'main'
+        workflowInputs:
+          clusterName: ${{ parameters.clusterName }}
+          gkeRegion: ${{ parameters.region }}
+          action: ${{ parameters.action }}
+    # The final step is to register our new component in the catalog.
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
