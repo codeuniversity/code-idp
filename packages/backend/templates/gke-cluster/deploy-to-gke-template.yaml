@@ -82,10 +82,10 @@ spec:
     # Start a github Action to build a GKE cluster with Terraform
     - id: github-action
       name: Trigger Github Action
-      action: github:action:dispatch
+      action: github:actions:dispatch
       input:
-        workflowId: manage-gke-cluster.yml
-        repoUrl: https://github.com/MennaTullahTaha/gke_with_terraform
+        workflowId: terraform.yml
+        repoUrl: 'github.com/MennaTullahTaha/gke_with_terraform?repo=gke_with_terraform&owner=MennaTullahTaha'
         branchOrTagName: 'main'
         workflowInputs:
           clusterName: ${{ parameters.clusterName }}

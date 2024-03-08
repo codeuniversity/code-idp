@@ -19,8 +19,8 @@ backend:
     client: pg
     connection:
       host: ${POSTGRES_HOST}
-      port: ${POSTGRES_PORT} 
-      user: ${POSTGRES_USER} 
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
 
 integrations:
@@ -34,7 +34,6 @@ techdocs:
     runIn: 'docker' # Alternatives - 'local'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
-
 
 catalog:
   import:
@@ -59,6 +58,11 @@ catalog:
     - type: file
       target: ../../minikube/catalog-info.yaml
 
+    - type: file
+      target: ../../packages/backend/templates/gke-cluster/deploy-to-gke-template.yaml
+      rules:
+        - allow: [Template]
+
     - type: url
       target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
       rules:
@@ -67,10 +71,10 @@ catalog:
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
-  providers: 
+  providers:
     github:
       development:
-        clientId:  ${GITHUB_CLIENT_ID} 
+        clientId: ${GITHUB_CLIENT_ID}
         clientSecret: ${GITHUB_CLIENT_SECRET}
 
 kubernetes:
@@ -80,7 +84,7 @@ kubernetes:
     - type: config
       clusters:
         - url: ${K8S_URL}
-          name: "k8s"
+          name: 'k8s'
           authProvider: serviceAccount
           skipTLSVerify: false
           skipMetricsLookup: true

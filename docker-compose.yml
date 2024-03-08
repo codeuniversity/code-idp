@@ -7,10 +7,10 @@ services:
       args:
         APP_ENV: docker
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST:-backstage_pg_db}
-      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       K8S_URL: ${K8S_URL}
       K8S_ACCOUNT_TOKEN: ${K8S_ACCOUNT_TOKEN}
       K8S_CA_DATA: ${K8S_CA_DATA}
@@ -25,8 +25,8 @@ services:
     container_name: backstage_postgres
     image: postgres:15.4
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres:/data/postgres
     ports:
