@@ -3,8 +3,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: GKE-cluster
-  title: Node.js App on GKE Cluster
-  description: Deploy a newly created Node.js App on GKE Cluster using terraform
+  title: express App on GKE Cluster
+  description: Deploy a newly created express App on GKE Cluster using terraform
 spec:
   owner: user:guest
   type: service
