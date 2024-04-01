@@ -1,0 +1,55 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
+kind: Template
+metadata:
+  name: GKE-cluster
+  title: Create a cluster on GKE
+  description: Create a cluster on GKE using terraform
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Basic GKE Cluster Configuration
+      required:
+        - clusterName
+        - region
+        - action
+      properties:
+        clusterName:
+          title: ClusterName
+          type: string
+          description: The name of your GKE cluster
+          ui:autofocus: true
+        region:
+          title: EKG region
+          type: string
+          description: The GKE region where the cluster will be deployed
+          enum:
+            - europe-west3
+        action:
+          title: Action
+          type: string
+          description: Action to perform (apply/destroy)
+          enum:
+            - apply
+            - destroy
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    # Start a github Action to create a GKE cluster with Terraform
+    - id: github-action
+      name: Trigger Github Action
+      action: github:actions:dispatch
+      input:
+        workflowId: terraform.yml
+        repoUrl: 'github.com/MennaTullahTaha/gke_with_terraform?repo=gke_with_terraform&owner=MennaTullahTaha'
+        branchOrTagName: 'main'
+        workflowInputs:
+          clusterName: ${{ parameters.clusterName }}
+          gkeRegion: ${{ parameters.region }}
+          action: ${{ parameters.action }}
