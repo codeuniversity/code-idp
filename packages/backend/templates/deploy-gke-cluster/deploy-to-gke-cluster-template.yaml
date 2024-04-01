@@ -1,0 +1,82 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
+kind: Template
+metadata:
+  name: GKE-cluster
+  title: Deploy application to google cloud kubernetes engine
+  description: Deploy application to google cloud kubernetes engine using terraform
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Provide Repository name
+      required:
+        - repoName
+      properties:
+        repoName:
+          title: repository name
+          type: string
+          description: name of your repository
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Provide application name
+      required:
+        - appName
+      properties:
+        appName:
+          title: application name
+          type: string
+          description: name of your application, lower case only no spaces or underscores
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Provide branch to checkout
+      required:
+        - branchName
+      properties:
+        branchName:
+          title: name of the branch to checkout
+          type: string
+          description: name of your branch
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Public github repo link to deploy
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Public github repo to deploy in Expected format ***owner***/***repo***.
+          type: string
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          name: ${{ parameters.name }}
+    # Start a github Action to build a GKE cluster with Terraform
+    - id: github-action
+      name: Trigger Github Action
+      action: github:actions:dispatch
+      input:
+        workflowId: terraform.yml
+        repoUrl: 'github.com/MennaTullahTaha/gke_with_terraform?repo=deployment&owner=MennaTullahTaha'
+        branchOrTagName: 'main'
+        workflowInputs:
+          repoName: ${{ parameters.repoName }}
+          githubRepo: ${{ parameters.repoUrl }}
+          branchName: ${{ parameters.branchName }}
+          applicationName: ${{ parameters.appName }}
