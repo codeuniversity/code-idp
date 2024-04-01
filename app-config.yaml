@@ -59,7 +59,7 @@ catalog:
       target: ../../minikube/catalog-info.yaml
 
     - type: file
-      target: ../../packages/backend/templates/gke-cluster/deploy-to-gke-template.yaml
+      target: ../../packages/backend/templates/deploy-gke-cluster/deploy-to-gke-cluster-template.yaml
       rules:
         - allow: [Template]
 
