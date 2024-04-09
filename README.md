@@ -298,3 +298,17 @@ This file changes some base values that are necessary to build the correct image
 **`app-config.production.yaml`:**
 <br>
 This file adds one line to the kubernetes plugin setup, which is only needed if the app is hosted inside of a kubernetes cluster.
+
+# Testing
+
+Before committing your changes, run the tests pls. ✨
+
+```sh
+yarn test
+```
+
+to run tests without end to end testing run:
+
+```sh
+yarn backstage-cli repo test
+```
