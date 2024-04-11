@@ -1,14 +1,18 @@
 
+name: Create User DB
 on:
   workflow_dispatch:
+
 jobs:
-  job_id:
+  create-db:
+    runs-on: ubuntu-latest
+    
     steps:
-    - id: 'auth'
+    - name: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-    - id: 'Set up Cloud SDK'
+    - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
