@@ -1,3 +1,6 @@
+
+on: [none]
+
 jobs:
   job_id:
     steps:
