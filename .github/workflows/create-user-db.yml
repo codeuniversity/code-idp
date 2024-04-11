@@ -1,6 +1,6 @@
 
-on: [none]
-
+on:
+  workflow_dispatch:
 jobs:
   job_id:
     steps:
