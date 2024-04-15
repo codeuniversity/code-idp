@@ -1,6 +1,9 @@
 
 name: Create User DB test
 on:
+  push:
+    branches:
+      - main # remove this line later
   workflow_dispatch:
 
 
