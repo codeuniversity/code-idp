@@ -1,5 +1,5 @@
 
-name: Create User DB
+name: Create User DB test
 on:
   workflow_dispatch:
 
