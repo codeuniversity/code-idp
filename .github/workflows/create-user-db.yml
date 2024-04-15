@@ -3,18 +3,11 @@ name: Create User DB test
 on:
   workflow_dispatch:
 
+
 jobs:
   create-db:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v2'
-    - name: 'Use gcloud CLI'
-      run: 'gcloud info'
-    - name: 'Use gcloud CLI to create DB'
-      run: 'gcloud sql databases create TEST-DB23 --instance=idp-postgres-db --project=code-idp'
+      - name: hello world
+        run: echo "Hello World"
