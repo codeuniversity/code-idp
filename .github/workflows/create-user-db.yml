@@ -1,6 +1,9 @@
 
 name: Create User DB
 on:
+  push:
+    branches:
+      - feat/cloudsql-gh-action
   workflow_dispatch:
 
 
