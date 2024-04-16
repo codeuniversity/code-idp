@@ -15,8 +15,8 @@ jobs:
       - id: 'auth'
       - name: 'auth'
       - uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - with:
+         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
       - id: 'Set up Cloud SDK'
       - name: 'Set up Cloud SDK'
       - uses: 'google-github-actions/setup-gcloud@v2'
