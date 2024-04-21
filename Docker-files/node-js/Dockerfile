@@ -1,6 +1,6 @@
-
+FROM node:20.12.2-bullseye-slim AS base
 # ---------------------- Initial image build ---------------------
-FROM node:20.12.2-bullseye-slim AS build
+FROM base AS build
 
 WORKDIR /usr/src/app
 
@@ -11,15 +11,15 @@ RUN apt-get update \
 && npm ci --only=production
 
 # ------------------------ Production Image ---------------------
-FROM node:20.12.2-bullseye-slim
+FROM base
+
+WORKDIR /usr/src/app
 
 ENV NODE_ENV production
 
 COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
 
 USER node
-
-WORKDIR /usr/src/app
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --chown=node:node . /usr/src/app

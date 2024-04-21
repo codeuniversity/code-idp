@@ -1,0 +1,12 @@
+.idea/
+.vscode/
+
+*venv/
+__pycache__/
+
+Dockerfile
+
+.gitignore
+README.md
+.git/
+.github
