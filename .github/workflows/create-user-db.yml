@@ -4,6 +4,11 @@ on:
     branches:
       - feat/cloudsql-gh-action
   workflow_dispatch:
+      inputs:
+        email:
+          description: where to send the email
+          required: true
+
 
 
 jobs:
@@ -50,6 +55,6 @@ jobs:
           username: code-idp-bot@421337.de
           password: ${{secrets.MAIL_PASSWORD}}
           subject: CODE IDP Database Created! ✨
-          to: idp-test@jdew.de
+          to: ${{ github.event.inputs.email }}
           from: The friendly code idp bot
           body: 'Your database has been created! 🎉 Your DB ID and Username is: ${{ steps.generate-db-id.outputs.number }} The Password is: ${{ steps.generate-db-pw.outputs.password }}'
