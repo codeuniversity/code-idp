@@ -20,5 +20,5 @@ jobs:
       - id: 'Set_up_Cloud_SDK'
         name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+      - name: 'Use gcloud CLI to create DB'
+        run: 'gcloud sql databases create testDB3 --instance=idp-postgres-db'
