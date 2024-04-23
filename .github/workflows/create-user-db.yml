@@ -33,4 +33,4 @@ jobs:
       - name: 'Use gcloud CLI to create DB'
         run: 'gcloud sql databases create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db'
       - name: 'create db user'
-        run: 'gcloud sql users create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db --password=${{ steps.generate-db-pw.outputs.password }}
+        run: 'gcloud sql users create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db --password=${{ steps.generate-db-pw.outputs.password }}'
