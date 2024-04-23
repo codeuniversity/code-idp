@@ -4,10 +4,10 @@ on:
     branches:
       - feat/cloudsql-gh-action
   workflow_dispatch:
-      inputs:
-        email:
-          description: where to send the email
-          required: true
+    inputs:
+      email:
+        description: where to send the email
+        required: true
 
 
 
