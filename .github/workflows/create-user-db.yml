@@ -37,10 +37,7 @@ jobs:
         run: 'gcloud sql users create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db --password=${{ steps.generate-db-pw.outputs.password }}'
       - name: 'pg login to db'
         continue-on-error: true
-        run: | 
-          'gcloud sql connect idp-postgres-db --user=postgres'
-          ''
-        
+        run: 'gcloud sql connect idp-postgres-db --user=postgres'   
       - name: 'pg grant db user permission on db'
         continue-on-error: true
         run: 'GRANT CONNECT ON DATABASE ${{ steps.generate-db-id.outputs.number }} TO ${{ steps.generate-db-id.outputs.number }};'
