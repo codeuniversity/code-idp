@@ -33,9 +33,12 @@ jobs:
       - name: 'Use gcloud CLI to create DB'
         run: 'gcloud sql databases create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db'
       - name: 'create db user'
+        continue-on-error: true
         run: 'gcloud sql users create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db --password=${{ steps.generate-db-pw.outputs.password }}'
       - name: 'pg login to db'
+        continue-on-error: true
         run: 'gcloud sql connect idp-postgres-db --user=postgres'
       - name: 'pg grant db user permission on db'
+        continue-on-error: true
         run: 'GRANT CONNECT ON DATABASE ${{ steps.generate-db-id.outputs.number }} TO ${{ steps.generate-db-id.outputs.number }};'
       
