@@ -18,6 +18,10 @@ jobs:
         with:
           min: 111111
           max: 999999
+      - id: 'generate-db-pw'
+        uses: aammirmirza/RandomPasswordGenerator@v1.1
+        with:
+         length: 15
       - id: 'auth'
         name: 'auth'
         uses: 'google-github-actions/auth@v2'
@@ -28,3 +32,5 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
       - name: 'Use gcloud CLI to create DB'
         run: 'gcloud sql databases create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db'
+      - name: 'create db user'
+        run: 'gcloud sql users create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db --password=${{ steps.generate-db-pw.outputs.password }}
