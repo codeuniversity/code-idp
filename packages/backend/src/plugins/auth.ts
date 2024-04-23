@@ -49,6 +49,25 @@ export default async function createPlugin(
           // resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
         },
       }),
+      google: providers.google.create({
+        signIn: {
+          resolver: async (info, ctx) => {
+            const {
+              profile: { email },
+            } = info;
+
+            if (!email) {
+              throw new Error('User profile contained no email');
+            }
+
+            const [name] = email.split('@');
+
+            return ctx.signInWithCatalogUser({
+              entityRef: { name },
+            });
+          },
+        },
+      })
     },
   });
 }
