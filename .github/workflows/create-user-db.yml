@@ -12,6 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - id: 'generate-db-id'
+        name: 'generate db id'
+        uses: 'yakubique/random-number@v1.1'
+        with:
+          min: 111111
+          max: 999999
       - id: 'auth'
         name: 'auth'
         uses: 'google-github-actions/auth@v2'
@@ -21,4 +27,4 @@ jobs:
         name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
       - name: 'Use gcloud CLI to create DB'
-        run: 'gcloud sql databases create testDB3 --instance=idp-postgres-db'
+        run: 'gcloud sql databases create ${{ steps.generate-db-id.outputs.number }} --instance=idp-postgres-db'
