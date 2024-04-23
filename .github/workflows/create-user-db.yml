@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
         run: | 
           'gcloud sql connect idp-postgres-db --user=postgres'
-          '\n'
+          ''
         
       - name: 'pg grant db user permission on db'
         continue-on-error: true
