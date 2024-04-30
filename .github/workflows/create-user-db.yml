@@ -26,11 +26,17 @@ jobs:
         uses: aammirmirza/RandomPasswordGenerator@v1.1
         with:
          length: 15
-      - id: 'auth'
-        name: 'auth'
-        uses: 'google-github-actions/auth@v2'
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
         with:
-         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          workload_identity_provider: "projects/1006240973223/locations/global/workloadIdentityPools/docker-image-workflow-pool/providers/github-actions-provider"
+          service_account: "github-actions-magic@code-idp.iam.gserviceaccount.com"
+          access_token_lifetime: 300s
+          create_credentials_file: true
+          cleanup_credentials: true
+          access_token_scopes: https://www.googleapis.com/auth/cloud-platform
+          id_token_include_email: false
       - id: 'Set_up_Cloud_SDK'
         name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
