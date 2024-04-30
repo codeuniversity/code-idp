@@ -13,6 +13,8 @@ env:
   MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
   MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
   MONGODB_ATLAS_ORG_ID: '6630fe6c4a18910569ad5e79'
+  MONGODB_ATLAS_PROJECT_ID: 'default'
+
 jobs:
   create-db:
     runs-on: ubuntu-latest
@@ -37,7 +39,6 @@ jobs:
         uses: mongodb/atlas-github-action@v0.2.0
         with:
           run-setup: true
-          default: 'true'
           project-id: ${{ steps.create-project.outputs.create-project-id }}
           cluster-name: ${{ steps.generate-db-id.outputs.number }}
           username: ${{ steps.generate-db-id.outputs.number }}
