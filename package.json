@@ -16,9 +16,10 @@
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false",
     "clean": "backstage-cli repo clean",
-    "test": "backstage-cli repo test",
+    "test": "backstage-cli repo test && playwright test",
     "test:all": "backstage-cli repo test --coverage",
     "test:e2e": "playwright test",
+    "test:no-e2e": "backstage-cli repo test",
     "fix": "backstage-cli repo fix",
     "lint": "backstage-cli repo lint --since origin/master",
     "lint:all": "backstage-cli repo lint",
@@ -31,6 +32,10 @@
     "docker:remove-all": "docker compose down",
     "new": "backstage-cli new --scope internal"
   },
+  "pre-commit": [
+    "yarn test",
+    "yarn e2e-test"
+  ],
   "workspaces": {
     "packages": [
       "packages/*",
@@ -62,4 +67,5 @@
       "prettier --write"
     ]
   }
+
 }
