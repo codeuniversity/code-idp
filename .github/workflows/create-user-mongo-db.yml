@@ -1,0 +1,10 @@
+name: Create User Mongo DB
+on:
+  push:
+    branches:
+      - feat/atlas-mongo-db-gh-action
+  workflow_dispatch:
+    inputs:
+      email:
+        description: where to send the email
+        required: true
