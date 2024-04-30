@@ -1,0 +1,43 @@
+name: Create User Mongo DB
+on:
+  push:
+    branches:
+      - feat/atlas-github-action
+  workflow_dispatch:
+    inputs:
+      email:
+        description: where to send the email
+        required: true
+
+env:
+  MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
+  MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
+  MONGODB_ATLAS_ORG_ID: '6630fe6c4a18910569ad5e79'
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup AtlasCLI and create a project
+        id: create-project
+        uses: mongodb/atlas-github-action@v0.2.0
+        with:
+          create-project-name: test-setup-project
+      - name: Run setup
+        id: setup
+        uses: mongodb/atlas-github-action@v0.2.0
+        with:
+          run-setup: true
+          project-id: ${{ steps.create-project.outputs.create-project-id }}
+          cluster-name: test-cluster
+          username: test-user
+          password: test-password
+      - name: Retrieve Connection String
+        shell: bash
+        run: |
+          echo "${{ steps.setup.outputs.connection-string }}"
+      - name: Teardown
+        uses: mongodb/atlas-github-action@v0.2.0
+        with:
+          delete-project-id: ${{ steps.create-project.outputs.create-project-id }}
+          delete-cluster-name: test-cluster
