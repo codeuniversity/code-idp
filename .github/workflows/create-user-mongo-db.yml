@@ -37,7 +37,7 @@ jobs:
         uses: mongodb/atlas-github-action@v0.2.0
         with:
           run-setup: true
-          project-id: ${{ steps.generate-db-id.outputs.number }}
+          project-id: ${{ steps.create-project.outputs.create-project-id }}
           cluster-name: ${{ steps.generate-db-id.outputs.number }}
           username: ${{ steps.generate-db-id.outputs.number }}
           password: ${{ steps.generate-db-pw.outputs.password }}
