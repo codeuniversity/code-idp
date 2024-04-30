@@ -14,7 +14,7 @@ env:
   MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
   MONGODB_ATLAS_ORG_ID: '6630fe6c4a18910569ad5e79'
 jobs:
-  gen-data:
+  create-db:
     runs-on: ubuntu-latest
     steps:
       - id: 'generate-db-id'
@@ -27,9 +27,6 @@ jobs:
         uses: aammirmirza/RandomPasswordGenerator@v1.1
         with:
          length: 15
-  setup:
-    runs-on: ubuntu-latest
-    steps:
       - name: Setup AtlasCLI and create a project
         id: create-project
         uses: mongodb/atlas-github-action@v0.2.0
