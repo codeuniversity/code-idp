@@ -48,8 +48,3 @@ jobs:
         shell: bash
         run: |
           echo "${{ steps.setup.outputs.connection-string }}"
-      - name: Teardown
-        uses: mongodb/atlas-github-action@v0.2.0
-        with:
-          delete-project-id: ${{ steps.create-project.outputs.create-project-id }}
-          delete-cluster-name: test-cluster
