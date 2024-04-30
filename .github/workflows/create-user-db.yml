@@ -13,6 +13,8 @@ on:
 
 jobs:
   create-db:
+    permissions:
+      id-token: "write"
     runs-on: ubuntu-latest
 
     steps:
