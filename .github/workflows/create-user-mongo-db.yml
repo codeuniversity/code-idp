@@ -2,7 +2,7 @@ name: Create User Mongo DB
 on:
   push:
     branches:
-      - feat/atlas-github-action
+      - feat/atlas-mongo-db-gh-action
   workflow_dispatch:
     inputs:
       email:
