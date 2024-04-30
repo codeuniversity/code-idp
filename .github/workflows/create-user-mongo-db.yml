@@ -14,6 +14,19 @@ env:
   MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
   MONGODB_ATLAS_ORG_ID: '6630fe6c4a18910569ad5e79'
 jobs:
+  gen-data:
+    runs-on: ubuntu-latest
+    steps:
+      - id: 'generate-db-id'
+        name: 'generate db id'
+        uses: 'yakubique/random-number@v1.1'
+        with:
+          min: 111111
+          max: 999999
+      - id: 'generate-db-pw'
+        uses: aammirmirza/RandomPasswordGenerator@v1.1
+        with:
+         length: 15
   setup:
     runs-on: ubuntu-latest
     steps:
@@ -21,16 +34,16 @@ jobs:
         id: create-project
         uses: mongodb/atlas-github-action@v0.2.0
         with:
-          create-project-name: test-setup-project
+          create-project-name: ${{ steps.generate-db-id.outputs.number }}
       - name: Run setup
         id: setup
         uses: mongodb/atlas-github-action@v0.2.0
         with:
           run-setup: true
-          project-id: ${{ steps.create-project.outputs.create-project-id }}
-          cluster-name: test-cluster
-          username: test-user
-          password: test-password
+          project-id: ${{ steps.generate-db-id.outputs.number }}
+          cluster-name: ${{ steps.generate-db-id.outputs.number }}
+          username: ${{ steps.generate-db-id.outputs.number }}
+          password: ${{ steps.generate-db-pw.outputs.password }}
       - name: Retrieve Connection String
         shell: bash
         run: |
