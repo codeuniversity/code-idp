@@ -47,3 +47,15 @@ jobs:
         shell: bash
         run: |
           echo "${{ steps.setup.outputs.connection-string }}"
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: mail.your-server.de
+          server_port: 465
+          secure: true
+          username: code-idp-bot@421337.de
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: CODE IDP Database Created! ✨
+          to: ${{ github.event.inputs.email }}
+          from: The friendly code idp bot
+          body: 'Your database has been created! 🎉 Your DB ID and Username is: ${{ steps.generate-db-id.outputs.number }} The Password is: ${{ steps.generate-db-pw.outputs.password }} The connection string is: ${{ steps.setup.outputs.connection-string }}'
