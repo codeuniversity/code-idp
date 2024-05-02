@@ -1,0 +1,40 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
+kind: Template
+metadata:
+  name: GKE-cluster
+  title: Update Deployment.
+  description: Update your deployed application on google cloud.
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Public github repo link to deploy
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Public github Repo to deploy
+          description: Provide the github repository link in the following format <https://github.com/your_user_name/your_repository_name>
+          pattern: ^https:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]
+          type: string
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Start a github Action to build a GKE cluster with Terraform
+    - id: github-action
+      name: Trigger Github Action
+      action: github:actions:dispatch
+      input:
+        workflowId: update-image.yml
+        repoUrl: 'github.com?repo=idp-hosted-projects&owner=codeuniversity'
+        branchOrTagName: 'main'
+        workflowInputs:
+          githubRepo: ${{ parameters.repoUrl }}
