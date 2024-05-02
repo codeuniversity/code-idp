@@ -33,8 +33,8 @@ spec:
       name: Trigger Github Action
       action: github:actions:dispatch
       input:
-        workflowId: initial-deployment-workflow.yml
-        repoUrl: 'https://github.com/codeuniversity/code-idp?repo=code-idp&owner=codeuniversity'
+        workflowId: create-image.yml
+        repoUrl: 'github.com?repo=idp-hosted-projects&owner=codeuniversity'
         branchOrTagName: 'main'
         workflowInputs:
           githubRepo: ${{ parameters.repoUrl }}

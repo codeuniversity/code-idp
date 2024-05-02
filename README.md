@@ -310,5 +310,5 @@ yarn test
 to run tests without end to end testing run:
 
 ```sh
-yarn backstage-cli repo test
+yarn test:no-e2e
 ```
