@@ -64,7 +64,7 @@ catalog:
         - allow: [Template]
 
     - type: file
-      target: ../../packages/backend/src/templates/initial-deployment/initial-deployment.yaml
+      target: ../../packages/backend/src/templates/initiate-deployment.yaml
       rules:
         - allow: [Template]
 

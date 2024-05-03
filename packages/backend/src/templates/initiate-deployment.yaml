@@ -3,8 +3,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: GKE-cluster
-  title: Update Deployment.
-  description: Update your deployed application on google cloud.
+  title: Initiate Deployment.
+  description: Deploy application to google cloud for the first time or update an existing deployment.
 spec:
   owner: user:guest
   type: service
@@ -24,6 +24,14 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+        action:
+          title: Action
+          default: create
+          # Note changing these paramters will lead to not triggering the github actions, it must be create or update.
+          description: Action to perform (create new deployment for application/Update for updating an already deployed application)
+          enum:
+            - create
+            - update
 
   # These steps are executed in the scaffolder backend, using data that we gathered
   # via the parameters above.
@@ -33,7 +41,7 @@ spec:
       name: Trigger Github Action
       action: github:actions:dispatch
       input:
-        workflowId: update-image.yml
+        workflowId: ${{parameters.action}}-image.yml
         repoUrl: 'github.com?repo=idp-hosted-projects&owner=codeuniversity'
         branchOrTagName: 'main'
         workflowInputs:
