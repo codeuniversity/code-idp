@@ -58,7 +58,12 @@ export default async function createPlugin(
                 'Login failed, user profile does not contain an email',
               );
             }
-            const [localPart] = profile.email.split('@');
+            const [localPart, domain] = profile.email.split('@');
+            if (domain !== 'code.berlin') {
+              throw new Error(
+                `Login failed, '${profile.email}' does not belong to the expected domain`,
+              );
+            }
             const userEntityRef = stringifyEntityRef({
               kind: 'User',
               name: localPart,
@@ -76,28 +81,3 @@ export default async function createPlugin(
       },
 });
 }
-
-
-`google: providers.google.create({
-  signIn: {
-    resolver: async (info, ctx) => {
-      const {
-        profile: { email },
-      } = info;
-
-      if (!email) {
-        throw new Error('User profile contained no email');
-      }
-
-      const [name] = email.split('@');
-
-      return ctx.signInWithCatalogUser({
-        entityRef: { name },
-      });
-    },
-  },
-})
-},
-});
-}
-`
