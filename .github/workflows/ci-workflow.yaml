@@ -56,11 +56,13 @@ jobs:
           fi
       - name: Validate Commit Messages
         run: |
-          commit_messages=$(git log --format=%s origin/main..HEAD)
+          commit_messages=$(git log --format=%B origin/main..HEAD)
           echo "Checking commit messages: $commit_messages"
           IFS=$'\n'
           for message in $commit_messages; do
-            if ! echo "$message" | grep -Pq '^(ADD:|FIX:|DEL:|UPD:) .+'; then
+            if [[ "$message" =~ ^Merge\ branch ]]; then
+              echo "Skipping merge commit: $message"
+            elif ! echo "$message" | grep -Pq '^(ADD:|FIX:|DEL:|UPD:) .+'; then
               echo "Invalid commit message: '$message'"
               echo "Commit messages must start with ADD:, FIX:, DEL:, or UPD: followed by a space and text."
               exit 1
