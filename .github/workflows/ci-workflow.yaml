@@ -60,15 +60,15 @@ jobs:
           echo "Checking commit messages: $commit_messages"
           IFS=$'\n'
           for message in $commit_messages; do
-            if [[ "$message" =~ ^Merge\ branch ]]; then
+            if [[ "$message" =~ ^Merge ]]; then
               echo "Skipping merge commit: $message"
             elif ! echo "$message" | grep -Pq '^(ADD:|FIX:|DEL:|UPD:) .+'; then
               echo "Invalid commit message: '$message'"
-              echo "Commit messages must start with ADD:, FIX:, DEL:, or UPD: followed by a space and text."
+              echo "Commit messages must start with ADD:, FIX:, DEL:, or UPD:"
               exit 1
             fi
           done
-          echo "All commit messages adhere to the specified format."
+          echo "All commit messages adhere to the format."
 
   validate_branch_names:
     runs-on: ubuntu-latest
