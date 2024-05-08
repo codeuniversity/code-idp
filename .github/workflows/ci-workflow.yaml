@@ -1,0 +1,95 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  setup_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['18.x', '20.x']
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Check Node.js version
+        run: node -v
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint code
+        run: yarn lint:all
+
+      - name: Build projects
+        run: yarn build:all
+
+      - name: Test projects
+        run: yarn test:all
+
+  validate_commit_messages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Ensure full git history
+        run: |
+          if [ -f $(git rev-parse --git-dir)/shallow ]; then
+            git fetch --prune --unshallow
+          else
+            git fetch --prune origin
+          fi
+      - name: Validate Commit Messages
+        run: |
+          commit_messages=$(git log --format=%B origin/main..HEAD)
+          echo "Checking commit messages: $commit_messages"
+          IFS=$'\n'
+          for message in $commit_messages; do
+            if [[ "$message" =~ ^Merge ]]; then
+              echo "Skipping merge commit: $message"
+            elif ! echo "$message" | grep -Pq '^(ADD:|FIX:|DEL:|UPD:) .+'; then
+              echo "Invalid commit message: '$message'"
+              echo "Commit messages must start with ADD:, FIX:, DEL:, or UPD:"
+              exit 1
+            fi
+          done
+          echo "All commit messages adhere to the format."
+
+  validate_branch_names:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate Branch Names
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            if [ -z "${{ github.head_ref }}" ]; then
+              branch_name=$(echo $GITHUB_REF | sed -n 's/refs\/heads\/\([^/]*\)/\1/p')
+              echo "Extracted branch name from ref: $branch_name"
+            else
+              branch_name=${{ github.head_ref }}
+              echo "Running in a fork pull request with branch: $branch_name"
+            fi
+          else
+            branch_name=$(git rev-parse --abbrev-ref HEAD)
+            echo "Current branch: $branch_name"
+          fi
+          if ! echo "$branch_name" | grep -Eq '^(main|feature/.+|hotfix/.+)$'; then
+            echo "Error: Branch name $branch_name does not fit the naming convention."
+            exit 1
+          fi
+          echo "Branch name fits the naming convention."
