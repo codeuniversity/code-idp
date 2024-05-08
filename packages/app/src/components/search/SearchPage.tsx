@@ -27,14 +27,15 @@ import { useApi } from '@backstage/core-plugin-api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 0),
   },
   filters: {
     padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   filter: {
     '& + &': {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(2.5),
     },
   },
 }));
