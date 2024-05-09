@@ -59,7 +59,6 @@ const app = createApp({
         {...props}
         auto
         providers={[
-          githubProvider, 
           googleProvider
         ]}
       />
