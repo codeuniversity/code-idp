@@ -5,7 +5,7 @@ import {
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
-import { DEFAULT_NAMESPACE, stringifyEntityRef, } from '@backstage/catalog-model';
+import { resolverResult } from './plugins_helper/googleAuthResolver';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -52,32 +52,9 @@ export default async function createPlugin(
       }),
       google: providers.google.create({
         signIn: {
-          resolver: async ({ profile }, ctx) => {
-            if (!profile.email) {
-              throw new Error(
-                'Login failed, user profile does not contain an email',
-              );
-            }
-            const [localPart, domain] = profile.email.split('@');
-            if (domain !== 'code.berlin') {
-              throw new Error(
-                `Login failed, '${profile.email}' does not belong to the expected domain`,
-              );
-            }
-            const userEntityRef = stringifyEntityRef({
-              kind: 'User',
-              name: localPart,
-              namespace: DEFAULT_NAMESPACE,
-            });
-            return ctx.issueToken({
-              claims: {
-                sub: userEntityRef,
-                ent: [userEntityRef],
-              },
-            });
-          },
+          resolver: resolverResult,
         },
       }),
-      },
-});
+    },
+  });
 }
