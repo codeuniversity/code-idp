@@ -2,8 +2,11 @@ import {
   stringifyEntityRef,
   DEFAULT_NAMESPACE,
 } from '@backstage/catalog-model';
+import dotenv from 'dotenv';
 import { OAuthResult } from '@backstage/plugin-auth-backend';
 import { SignInInfo, AuthResolverContext } from '@backstage/plugin-auth-node';
+
+dotenv.config();
 
 export const resolverResult = async (
   profile_input: SignInInfo<OAuthResult>,
@@ -22,10 +25,8 @@ export const resolverResult = async (
 
   const [localPart, domain] = profile.email.split('@');
 
-  if (domain !== 'code.berlin') {
-    throw new Error(
-      `Login failed, '${profile.email}' does not belong to the expected domain`,
-    );
+  if (domain !== process.env.EMAIL_DOMAIN) {
+    throw new Error(`Login failed due to incorrect email domain.`);
   }
 
   const userEntityRef = stringifyEntityRef({
@@ -33,7 +34,7 @@ export const resolverResult = async (
     name: localPart,
     namespace: DEFAULT_NAMESPACE,
   });
-  
+
   return ctx.issueToken({
     claims: {
       sub: userEntityRef,

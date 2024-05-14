@@ -40,8 +40,10 @@
     "@backstage/plugin-techdocs-backend": "^1.9.2",
     "app": "link:../app",
     "dockerode": "^3.3.1",
+    "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
+    "jest-canvas-mock": "^2.5.2",
     "node-gyp": "^9.0.0",
     "pg": "^8.11.3",
     "winston": "^3.2.1"
