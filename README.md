@@ -39,6 +39,9 @@ BASE_URL="http://localhost:7007"
 GITHUB_CLIENT_ID="your-id"
 GITHUB_CLIENT_SECRET="your-secret"
 
+GOOGLE_CLIENT_ID= "google_client_id"
+GOOGLE_CLIENT_SECRET= "google_client_secret"
+
 GITHUB_TOKEN="your-token"
 
 K8S_URL="k8s-url"
@@ -62,6 +65,12 @@ Keep it the same as it is right now, this is the url on which the application is
 **`GITHUB_CLIENT`:**
 <br>
 These environment variables are to setup correct [authentication](https://backstage.io/docs/getting-started/configuration#setting-up-authentication). Please follow [these](#github-auth) steps.
+
+**`GOOGLE_CLIENT`:**
+<br>
+These environment variables are to allow google login with your code.berlin email.
+( https://console.cloud.google.com/apis/credentials/oauthclient/1006240973223-fs36u8kllipl761732fn565l6suviroh.apps.googleusercontent.com?authuser=0&project=code-idp&pli=1 )
+Use the link above and copy the client ID and secret.
 
 **`GITHUB_TOKEN`:**
 <br>

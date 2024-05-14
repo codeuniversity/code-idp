@@ -5,6 +5,7 @@ import {
 } from '@backstage/plugin-auth-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
+import { resolverResult } from './plugins_helper/googleAuthResolver';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -47,6 +48,11 @@ export default async function createPlugin(
             });
           },
           // resolver: providers.github.resolvers.usernameMatchingUserEntityName(),
+        },
+      }),
+      google: providers.google.create({
+        signIn: {
+          resolver: resolverResult,
         },
       }),
     },

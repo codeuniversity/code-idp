@@ -34,8 +34,22 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
-import { SignInPage } from '@backstage/core-components';
+import { githubAuthApiRef, googleAuthApiRef } from '@backstage/core-plugin-api';
+import { SignInPage, SignInProviderConfig } from '@backstage/core-components';
+
+const githubProvider: SignInProviderConfig = {
+  id: 'github-auth-provider',
+  title: 'GitHub',
+  message: 'Sign in using GitHub',
+  apiRef: githubAuthApiRef,
+};
+const googleProvider: SignInProviderConfig = {
+  id: 'google-auth-provider',
+  title: 'Google',
+  message: 'Sign in using Google',
+  apiRef: googleAuthApiRef,
+};
+
 
 const app = createApp({
   apis,
@@ -44,12 +58,9 @@ const app = createApp({
       <SignInPage
         {...props}
         auto
-        provider={{
-          id: 'github-auth-provider',
-          title: 'GitHub',
-          message: 'Sign in using GitHub',
-          apiRef: githubAuthApiRef,
-        }}
+        providers={[
+          googleProvider
+        ]}
       />
     ),
   },

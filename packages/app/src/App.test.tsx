@@ -1,6 +1,9 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import App from './App';
+import 'jest-canvas-mock'
+
+
 
 describe('App', () => {
   it('should render', async () => {
@@ -19,9 +22,7 @@ describe('App', () => {
         },
       ] as any,
     };
-
-    const rendered = render(<App />);
-
+    const rendered =  render(<App />);
     await waitFor(() => {
       expect(rendered.baseElement).toBeInTheDocument();
     });
