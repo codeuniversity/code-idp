@@ -2,11 +2,8 @@ import {
   stringifyEntityRef,
   DEFAULT_NAMESPACE,
 } from '@backstage/catalog-model';
-import dotenv from 'dotenv';
 import { OAuthResult } from '@backstage/plugin-auth-backend';
 import { SignInInfo, AuthResolverContext } from '@backstage/plugin-auth-node';
-
-dotenv.config();
 
 export const resolverResult = async (
   profile_input: SignInInfo<OAuthResult>,
@@ -25,7 +22,7 @@ export const resolverResult = async (
 
   const [localPart, domain] = profile.email.split('@');
 
-  if (domain !== process.env.EMAIL_DOMAIN) {
+  if (domain !== 'code.berlin') {
     throw new Error(`Login failed due to incorrect email domain.`);
   }
 
