@@ -16,6 +16,23 @@ spec:
       required:
         - repoUrl
       properties:
+        arrayObjects:
+          title: "Environment Variables"
+          type: array
+          minItems: 0
+          ui:options:
+            addable: true
+            orderable: false
+            removable: true
+          items:
+            type: object
+            properties:
+              keyInput:
+                title: environment variable key
+                type: string
+              valueInput:
+                title: environment variable value
+                type: string
         repoUrl:
           title: Public github Repo to deploy
           description: Provide the github repository link in the following format <https://github.com/your_user_name/your_repository_name>
