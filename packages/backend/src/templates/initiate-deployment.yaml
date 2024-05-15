@@ -24,6 +24,11 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+        dbCreds:
+          title: Database Credentials
+          description: Please provide the credentials for your database.
+          type: string
+          ui:options:
         action:
           title: Action
           default: create
@@ -46,3 +51,4 @@ spec:
         branchOrTagName: 'main'
         workflowInputs:
           githubRepo: ${{ parameters.repoUrl }}
+          dbCreds: ${{ parameters.dbCreds }}
