@@ -15,6 +15,7 @@ spec:
     - title: Public github repo link to deploy
       required:
         - repoUrl
+        - emailAddress
       properties:
         repoUrl:
           title: Public github Repo to deploy
@@ -24,6 +25,11 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+        emailAddress:
+          title: Email to receive deployment link on.
+          description: Provide your email in the following format example@code.berlin or example@gmail.com
+          pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
+          type: string
         action:
           title: Action
           default: create
@@ -46,3 +52,4 @@ spec:
         branchOrTagName: 'main'
         workflowInputs:
           githubRepo: ${{ parameters.repoUrl }}
+          email: ${{ parameters.emailAddress }}
