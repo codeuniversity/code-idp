@@ -47,7 +47,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64
-          tags: europe-west10-docker.pgk.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}
+          tags: europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}
           build-args: |
             APP_ENV=docker
   deploy-image:
@@ -74,7 +74,7 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: 'backstage-deployment'
-          image: 'europe-west10-docker.pgk.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
+          image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
           env_vars: |
             key=value
             POSTGRES_HOST=code-idp:europe-west10-backstage-pg
