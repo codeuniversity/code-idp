@@ -15,11 +15,15 @@ catalog:
     - type: file
       target: minikube/catalog-info.yaml
 
-
 auth:
-  environment: production
-  providers: 
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers:
     github:
-      production:
-        clientId:  ${GITHUB_CLIENT_ID} 
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
         clientSecret: ${GITHUB_CLIENT_SECRET}
+    google:
+      development:
+        clientId: ${GOOGLE_CLIENT_ID}
+        clientSecret: ${GOOGLE_CLIENT_SECRET}
