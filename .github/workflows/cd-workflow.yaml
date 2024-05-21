@@ -54,12 +54,12 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    name: "Create and push the Docker image to GAR"
+    name: "Deploy image on cloud run"
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-
+    needs: create-and-push-image
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,9 +80,9 @@ jobs:
             POSTGRES_HOST=code-idp:europe-west10-backstage-pg
             POSTGRES_PORT=5432
             POSTGRES_USER=postgres
-            BASE_URL=https://example.com #needs to be fixed
+            BASE_URL=https://example.com 
           secrets: |-
             POSTGRES_PASSWORD=postgres-password:latest
-            GITHUB_TOKEN=GITHUB_TOKEN
-            GOOGLE_CLIENT_ID=aslkdjf
-            GOOGLE_CLIENT_SECRET=fkajsdlf
+           # GITHUB_TOKEN=GITHUB_TOKEN
+            #GOOGLE_CLIENT_ID=aslkdjf
+            #GOOGLE_CLIENT_SECRET=fkajsdlf
