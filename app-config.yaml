@@ -72,25 +72,7 @@ auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
   providers:
-    github:
-      development:
-        clientId: ${GITHUB_CLIENT_ID}
-        clientSecret: ${GITHUB_CLIENT_SECRET}
     google:
       development:
         clientId: ${GOOGLE_CLIENT_ID}
         clientSecret: ${GOOGLE_CLIENT_SECRET}
-
-# kubernetes:
-#   serviceLocatorMethod:
-#     type: multiTenant
-#   clusterLocatorMethods:
-#     - type: config
-#       clusters:
-#         - url: ${K8S_URL}
-#           name: 'k8s'
-#           authProvider: serviceAccount
-#           skipTLSVerify: false
-#           skipMetricsLookup: true
-#           serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
-#           caData: ${K8S_CA_DATA}

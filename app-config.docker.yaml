@@ -14,12 +14,3 @@ catalog:
   locations:
     - type: file
       target: minikube/catalog-info.yaml
-
-auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
-  environment: development
-  providers:
-    google:
-      development:
-        clientId: ${GOOGLE_CLIENT_ID}
-        clientSecret: ${GOOGLE_CLIENT_SECRET}
