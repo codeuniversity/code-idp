@@ -76,14 +76,14 @@ jobs:
           service: 'backstage-deployment'
           image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
           region: europe-west10
+          flags: '--port=7007'
           env_vars: |
-            key=value
-            POSTGRES_HOST=code-idp:europe-west10-backstage-pg
+            POSTGRES_HOST=34.32.39.175
             POSTGRES_PORT=5432
             POSTGRES_USER=postgres
-            BASE_URL=https://example.com 
+            BASE_URL=backstage.foundations-software-engineering.com
           secrets: |-
             POSTGRES_PASSWORD=postgres-password:latest
-           # GITHUB_TOKEN=GITHUB_TOKEN
-            #GOOGLE_CLIENT_ID=aslkdjf
-            #GOOGLE_CLIENT_SECRET=fkajsdlf
+            GITHUB_TOKEN=github_token:latest
+            GOOGLE_CLIENT_ID=google_client_id:latest
+            GOOGLE_CLIENT_SECRET=google_client_secret:latest
