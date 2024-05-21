@@ -81,7 +81,7 @@ jobs:
             POSTGRES_HOST=/cloudsql/code-idp:europe-west10:backstage-pg
             POSTGRES_PORT=5432
             POSTGRES_USER=postgres
-            BASE_URL=backstage.foundations-software-engineering.com
+            BASE_URL=https://backstage.foundations-software-engineering.com
           secrets: |-
             POSTGRES_PASSWORD=postgres-password:latest
             GITHUB_TOKEN=github_token:latest
