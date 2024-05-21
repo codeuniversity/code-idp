@@ -75,6 +75,7 @@ jobs:
         with:
           service: 'backstage-deployment'
           image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
+          region: europe-west10
           env_vars: |
             key=value
             POSTGRES_HOST=code-idp:europe-west10-backstage-pg
