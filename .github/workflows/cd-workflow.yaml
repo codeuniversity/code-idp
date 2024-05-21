@@ -76,9 +76,9 @@ jobs:
           service: 'backstage-deployment'
           image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
           region: europe-west10
-          flags: '--port=7007'
+          flags: '--port=7007 --add-cloudsql-instances=code-idp:europe-west10:backstage-pg'
           env_vars: |
-            POSTGRES_HOST=34.32.39.175
+            POSTGRES_HOST=localhost
             POSTGRES_PORT=5432
             POSTGRES_USER=postgres
             BASE_URL=backstage.foundations-software-engineering.com
