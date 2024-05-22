@@ -56,3 +56,5 @@ e2e-test-report/
 pg_values.yaml
 
 *secret.yaml
+screenshots
+.eslintrc.json
