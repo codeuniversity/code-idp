@@ -55,9 +55,6 @@ catalog:
       rules:
         - allow: [User, Group]
 
-    - type: file
-      target: ../../minikube/catalog-info.yaml
-
     - type: url
       target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
       rules:

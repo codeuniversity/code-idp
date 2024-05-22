@@ -2,7 +2,9 @@
 name: Deploy backstage
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - main
 
 jobs:
   create-and-push-image:

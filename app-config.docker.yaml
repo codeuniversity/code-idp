@@ -11,6 +11,3 @@ catalog:
     pullRequestBranchName: backstage-integration
   rules:
     - allow: [Component, System, API, Resource, Location]
-  locations:
-    - type: file
-      target: minikube/catalog-info.yaml
