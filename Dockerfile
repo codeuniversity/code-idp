@@ -72,7 +72,6 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 # Copy the built packages from the build stage
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
-COPY --from=build --chown=node:node /app/minikube ./minikube/
 
 ARG APP_ENV
 

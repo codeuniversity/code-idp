@@ -2,12 +2,90 @@
 name: Deploy backstage
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - main
 
 jobs:
-  placeholder-job:
+  create-and-push-image:
+    permissions:
+      id-token: write
+      contents: read
+    name: "Create and push the Docker image to GAR"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
-      - name: hello world
-        run: echo "Hello World"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: 'setup-qemu'
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - id: 'docker-buildx-setup'
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          create_credentials_file: true
+          token_format: access_token
+          workload_identity_provider: 'projects/1006240973223/locations/global/workloadIdentityPools/deploy-backstage/providers/github-actions'
+          service_account: 'deploy-backstage@code-idp.iam.gserviceaccount.com'
+      - id: 'login-gar'
+        name: "Login to GAR"
+        uses: docker/login-action@v3
+        with:
+          registry: europe-west10-docker.pkg.dev/code-idp/backstage-deploy
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+      - id: 'build-and-push'
+        name: 'Build and Push docker Image'
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          tags: europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}
+          build-args: |
+            APP_ENV=docker
+  deploy-image:
+    permissions:
+      id-token: write
+      contents: read
+    name: "Deploy image on cloud run"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    needs: create-and-push-image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          create_credentials_file: true
+          workload_identity_provider: 'projects/1006240973223/locations/global/workloadIdentityPools/deploy-backstage/providers/github-actions'
+          service_account: 'deploy-backstage@code-idp.iam.gserviceaccount.com'
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: 'backstage-deployment'
+          image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
+          region: europe-west1
+          flags: '--port=7007 --add-cloudsql-instances=code-idp:europe-west10:backstage-pg'
+          env_vars: |
+            POSTGRES_HOST=/cloudsql/code-idp:europe-west10:backstage-pg
+            POSTGRES_PORT=5432
+            POSTGRES_USER=postgres
+            BASE_URL=https://backstage.foundations-software-engineering.com
+          secrets: |-
+            POSTGRES_PASSWORD=postgres-password:latest
+            GITHUB_TOKEN=github_token:latest
+            GOOGLE_CLIENT_ID=google_client_id:latest
+            GOOGLE_CLIENT_SECRET=google_client_secret:latest
