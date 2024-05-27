@@ -3,9 +3,37 @@
 # Setup for code-idp as a developer:
 
 Prerequisites:
-
+- Node 18.20
+<details>
+<summary>Installing Node 18.20 (using NVM)</summary>
+To install node and npm in Ubuntu on WSL you need to install nvm. It doesn't work with apt-install.
+Install NVM:
+```sh 
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+```
+Edit ~/.bashrc or ~/.zshrc depending on the Linux Shell you're using and add the following at the bottom.
+```sh 
+export NVM_DIR="/home/yourusername/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+Restart your shell and docker after this step.
+nvm install node version 18.20.3
+```sh 
+nvm install v18.20.3
+```
+</details>
 - [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+<details>
+<summary>Installing Docker on WSL or Linux</summary>
+For Linux, follow this [link](https://docs.docker.com/engine/install/ubuntu/) for Ubuntu Docker install.
+<br>
+
+For WSL, use this [link](https://docs.docker.com/desktop/wsl/) (do not install docker on the linux distro on WSL.)
+
+<br>
+Notes:
+</details>
+
 
 Clone the repository and install node_modules:
 ```sh  
