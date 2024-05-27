@@ -3,9 +3,9 @@
 # Setup for code-idp as a developer:
 
 Prerequisites:
-- Node 18.20
+- Node 18.20.3
 <details>
-<summary>Installing Node 18.20 (using NVM)</summary>
+<summary>Installing Node 18.20.3 (using NVM)</summary>
 <br>
 To install node and npm in Ubuntu on WSL you need to install nvm. It doesn't work with apt-install.
 <br>
@@ -28,6 +28,9 @@ nvm install node version 18.20.3
 ```sh 
 nvm install v18.20.3
 ```
+Version of node and npm last working:
+<br>
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/0dd022ba-dbc9-43b0-83aa-b1b5a1bb3ce7)
 
 </details>
 
@@ -48,6 +51,17 @@ For WSL, use this [link](https://docs.docker.com/desktop/wsl/)
 
 <br>
 Notes:
+Make sure that for the windows Docker engine that you have this option activated.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/f04a2912-0365-4711-b69c-f4b56b6818a4)
+
+<br>
+When Running "wsl.exe -l -v", make sure all versions are on WSL2.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/b728d802-4aec-4771-b4d5-4ac88b9709f7)
+
 </details>
 
 
