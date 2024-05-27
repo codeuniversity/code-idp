@@ -20,7 +20,8 @@ Edit ~/.bashrc or ~/.zshrc depending on the Linux Shell you're using and add the
 export NVM_DIR="/home/yourusername/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 ```
 
-Restart your shell and docker after this step.
+Restart your shell and docker after this step. 
+<br>
 nvm install node version 18.20.3
 
 ```sh 
@@ -28,8 +29,10 @@ nvm install v18.20.3
 ```
 
 </details>
+
 - [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
 <details>
 <summary>Installing Docker on WSL or Linux</summary>
 <br>
