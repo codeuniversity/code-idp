@@ -8,6 +8,7 @@ Prerequisites:
 <summary>Installing Node 18.20 (using NVM)</summary>
 <br>
 To install node and npm in Ubuntu on WSL you need to install nvm. It doesn't work with apt-install.
+<br>
 Install NVM:
 
 ```sh 
@@ -36,10 +37,14 @@ nvm install v18.20.3
 <details>
 <summary>Installing Docker on WSL or Linux</summary>
 <br>
-For Linux, follow this [link](https://docs.docker.com/engine/install/ubuntu/) for Ubuntu Docker install.
+
+For Linux, follow this [link](https://docs.docker.com/engine/install/ubuntu/)
+
+for Ubuntu Docker install.
 <br>
 
-For WSL, use this [link](https://docs.docker.com/desktop/wsl/) (do not install docker on the linux distro on WSL.)
+For WSL, use this [link](https://docs.docker.com/desktop/wsl/) 
+(do not install docker on the linux distro on WSL.)
 
 <br>
 Notes:
