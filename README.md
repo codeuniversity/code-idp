@@ -142,8 +142,11 @@ To get you GitHub integration working you need to generate yourself a new token 
 2. Write a note (can be empty but encourged so you know what the tokens belongs to)
 3. Set an expiration date (can be unlimited just be careful not to share it or you might have to revoke it manully)
 4. Select a scope the following is enough for basic usage (may have to adjusted if you want to go beyong the basic scope)
+
 <img height="400" alt="img" src="./images/githubintegration.svg">
+
 5. Copy and paste your `GitHub Token` and paste it into the correct environment variable (`GITHUB_TOKEN`)
+
 6. follow this guide in order to authorize your token: https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on
 
 # Running Environments
