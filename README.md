@@ -32,6 +32,9 @@ Version of node and npm last working:
 <br>
 ![image](https://github.com/codeuniversity/code-idp/assets/102903601/0dd022ba-dbc9-43b0-83aa-b1b5a1bb3ce7)
 
+<br>
+Node version: 18.20.3
+NPM version: 10.7.0
 </details>
 
 - [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
