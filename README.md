@@ -3,9 +3,70 @@
 # Setup for code-idp as a developer:
 
 Prerequisites:
+- Node 18.20.3
+<details>
+<summary>Installing Node 18.20.3 (using NVM)</summary>
+<br>
+To install node and npm in Ubuntu on WSL you need to install nvm. It doesn't work with apt-install.
+<br>
+Install NVM:
+
+```sh 
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+```
+
+Edit ~/.bashrc or ~/.zshrc depending on the Linux Shell you're using and add the following at the bottom.
+
+```sh 
+export NVM_DIR="/home/yourusername/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+Restart your shell and docker after this step. 
+<br>
+nvm install node version 18.20.3
+
+```sh 
+nvm install v18.20.3
+```
+Version of node and npm last working:
+<br>
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/0dd022ba-dbc9-43b0-83aa-b1b5a1bb3ce7)
+
+<br>
+Node version: 18.20.3
+NPM version: 10.7.0
+</details>
 
 - [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+<details>
+<summary>Installing Docker on WSL or Linux</summary>
+<br>
+
+For Linux, follow this [link](https://docs.docker.com/engine/install/ubuntu/)
+
+for Ubuntu Docker install.
+<br>
+
+For WSL, use this [link](https://docs.docker.com/desktop/wsl/) 
+(do not install docker on the linux distro on WSL.)
+
+<br>
+Notes:
+Make sure that for the windows Docker engine that you have this option activated.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/f04a2912-0365-4711-b69c-f4b56b6818a4)
+
+<br>
+When Running "wsl.exe -l -v", make sure all versions are on WSL2.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/b728d802-4aec-4771-b4d5-4ac88b9709f7)
+
+</details>
+
 
 Clone the repository and install node_modules:
 ```sh  
@@ -103,8 +164,11 @@ To get you GitHub integration working you need to generate yourself a new token 
 2. Write a note (can be empty but encourged so you know what the tokens belongs to)
 3. Set an expiration date (can be unlimited just be careful not to share it or you might have to revoke it manully)
 4. Select a scope the following is enough for basic usage (may have to adjusted if you want to go beyong the basic scope)
+
 <img height="400" alt="img" src="./images/githubintegration.svg">
+
 5. Copy and paste your `GitHub Token` and paste it into the correct environment variable (`GITHUB_TOKEN`)
+
 6. follow this guide in order to authorize your token: https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on
 
 # Running Environments
