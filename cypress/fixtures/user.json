@@ -1,0 +1,23 @@
+{
+  "profile": {
+    "email": "user_test@code.berlin",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKSdZA_ZVY7tLtdvoZJZW6Utob_xwLX_mDuN6SUFVQj9yA5nQ=s96-c",
+    "displayName": "User Test"
+  },
+  "providerInfo": {
+    "idToken": "",
+    "accessToken": "",
+    "scope": "",
+    "expiresInSeconds": 100000
+  },
+  "backstageIdentity": {
+    "token": "",
+    "expiresInSeconds": 100000,
+    "identity": {
+      "type": "user",
+      "userEntityRef": "user:default/user_test",
+      "ownershipEntityRefs": ["user:default/user_test"],
+      "refreshToken": "1%2F%2F090g8Mm1yA7mCCgYIARAAGAkSNwF-L9IrmTyVW_yCSVLYROtwsCz4SF-Lk-CS74Kbo3NaM3lOkvqVVYjuJWekFXZchSiD1iIqlw4"
+    }
+  }
+}

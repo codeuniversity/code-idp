@@ -1,5 +1,30 @@
 {
-  "name": "Using fixtures to represent data",
-  "email": "hello@cypress.io",
-  "body": "Fixtures are a great way to mock data for responses to routes"
+  "profile": {
+    "email": "user_test@code.berlin",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocKSdZA_ZVY7tLtdvoZJZW6Utob_xwLX_mDuN6SUFVQj9yA5nQ=s96-c",
+    "displayName": "User Test",
+    "uid": "395e2408-3069-4232-9465-5218ff4a96de",
+    "etag": "cea6b07a9e7e6f5c4e731cdf54d7a548d9e7d6ec"
+  },
+  "providerInfo": {
+    "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMyM2IyMTRhZTY5NzVhMGYwMzRlYTc3MzU0ZGMwYzI1ZDAzNjQyZGMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDA2MjQwOTczMjIzLWZzMzZ1OGtsbGlwbDc2MTczMmZuNTY1bDZzdXZpcm9oLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTAwNjI0MDk3MzIyMy1mczM2dThrbGxpcGw3NjE3MzJmbjU2NWw2c3V2aXJvaC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExODE2MTk0NDY1Mzk3NDc3NDc4MyIsImhkIjoiY29kZS5iZXJsaW4iLCJlbWFpbCI6Im1lbm5hLnR1bGxhaC50YWhhQGNvZGUuYmVybGluIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJnUnp2V09XcjdkVWN1SWQ3STJ1clZnIiwibmFtZSI6Ik1lbm5hIFR1bGxhaCBUYWhhIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0tTZFpBX1pWWTd0THRkdm9aSlpXNlV0b2JfeHdMWF9tRHVONlNVRlZRajl5QTVuUT1zOTYtYyIsImdpdmVuX25hbWUiOiJNZW5uYSBUdWxsYWgiLCJmYW1pbHlfbmFtZSI6IlRhaGEiLCJpYXQiOjE3MTY0NTM1NTUsImV4cCI6MTcxNjQ1NzE1NX0.NKzuKfDu2lw0Vno9bzEoJzfm0yPL4aell3tmWjYt4Ln6JzE-mI4o3uf5rZ2uo4fV8qE8pPhsIck9ZU8SfXaz4OwYUMSuUbJLqEp8nY9RMWynwMreZ0USAnZC0XeWq86N0G5cD299rQPG4dH1tKlUljPAmSu7cX_58d0WoJP48RVhNRPHQhh02EVuPiGXc1weVIVjKZNSKcbNFjkq03bx0SvOSkKsI_5KmbqEvxUgAPCSV7JD2AXaat1p-0i3HzVqfXlxQ6GEdBEDGVgGNkm5IScohkQIBdqCagFy3kdVj2SXF9QpWc2bNfqPF7hnZ3CoN6Y72jEXTmD2M6ASX2oynQ",
+    "accessToken": "ya29.a0AXooCgufCmzx2CoQl4bU8rT42blxLtPimZHkcOOyEqmzfXYdgCEuBLJ6GlLYz4n8Uwu-_IxZzwjVm00upwYDhMQuIEwAYggX9kJGzKM1tInh36E3rhVQfellSiBycyT9pQ70uImi3KlkQr-3IozExQeFAPa0VifdgKb3aCgYKAS8SARMSFQHGX2MiTwV59wtuM90Rlg7iHQ0Rgg0171",
+    "scope": "openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+    "expiresInSeconds": 3599,
+    "uid": "395e2408-3069-4232-9465-5218ff4a96de",
+    "etag": "cea6b07a9e7e6f5c4e731cdf54d7a548d9e7d6ec"
+  },
+  "backstageIdentity": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwdWJsaWNfa2V5IiwiZXhwIjoxNzg2MzQwMDE4fQ.PFQSoCUQ9rcwF6ipgCmLQgxRdweulQsqZM6slAziN6UxGgdJoFWB72OeXnceiDJSgzSAMju2bd0n9fpS-kR_GVuKr6Y5XfsoBESA-v7bi_7YI3JIuuENdJG1T9nBYiJg",
+    "uid": "395e2408-3069-4232-9465-5218ff4a96de",
+    "etag": "cea6b07a9e7e6f5c4e731cdf54d7a548d9e7d6ec",
+    "expiresInSeconds": 3599,
+    "identity": {
+      "type": "user",
+      "userEntityRef": "user:default/user_test",
+      "ownershipEntityRefs": ["user:default/user_test"],
+      "uid": "395e2408-3069-4232-9465-5218ff4a96de",
+      "etag": "cea6b07a9e7e6f5c4e731cdf54d7a548d9e7d6ec"
+    }
+  }
 }

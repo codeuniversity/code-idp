@@ -2,6 +2,6 @@
 
 declare namespace Cypress {
   interface Chainable {
-    loginByGoogleApi(): Chainable<any>;
+    OAuthlogin(): Chainable<any>;
   }
 }

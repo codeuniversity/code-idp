@@ -1,77 +1,64 @@
 /// <reference types="cypress" />
 ///<reference path="../support/index.ts" />
+import jwt from 'jsonwebtoken';
+import user from '../fixtures/user.json';
 
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+Cypress.Commands.add('OAuthlogin', () => {
+  Cypress.log({
+    name: 'loginViaAuth0',
+  });
+  const audience = Cypress.env('auth_audience');
+  const client_id = Cypress.env('auth_client_id');
+  const scope = 'openid email profile offline_access';
 
-Cypress.Commands.add('loginByGoogleApi', () => {
-  cy.log('Logging in to Google');
-
-  cy.request({
+  const options = {
     method: 'POST',
-    url: 'https://www.googleapis.com/oauth2/v4/token',
+    url: Cypress.env('http://localhost:3000/catalog'),
     body: {
-      grant_type: 'refresh_token',
-      client_id: Cypress.env('googleClientId'),
-      client_secret: Cypress.env('googleClientSecret'),
-      refresh_token: Cypress.env('googleRefreshToken'),
+      grant_type: 'http://auth0.com/oauth/grant-type/password-realm',
+      realm: 'Username-Password-Authentication',
+      username: 'user_test',
+      password: 'test',
+      audience,
+      scope,
+      client_id,
+      client_secret: Cypress.env('auth_client_secret'),
     },
-  }).then(({ body }) => {
-    const { access_token, id_token } = body;
+  };
 
-    cy.request({
-      method: 'GET',
-      url: 'https://www.googleapis.com/oauth2/v3/userinfo',
-      headers: { Authorization: `Bearer ${access_token}` },
-    }).then(({ body }) => {
-      cy.log(body.sub, body.email, body.given_name, body.family_name);
-      const userItem = {
-        token: id_token,
-        user: {
-          googleId: body.sub,
-          email: body.email,
-          givenName: body.given_name,
-          familyName: body.family_name,
-          imageUrl: body.picture,
+  cy.request('http://localhost:3000/', options).then(({ body }) => {
+    const claims = jwt.decode(body.id_token);
+    const { access_token, id_token, token_type, expires_in, refresh_token } =
+      body;
+
+    const item = {
+      body: {
+        access_token,
+        audience,
+        client_id,
+        id_token,
+        oauthTokenScope: scope,
+        expires_in,
+        refresh_token,
+        scope,
+        token_type,
+        decodedToken: {
+          claims,
+          user: {
+            email: 'user_test@code.berlin',
+            picture:
+              'https://lh3.googleusercontent.com/a/ACg8ocKSdZA_ZVY7tLtdvoZJZW6Utob_xwLX_mDuN6SUFVQj9yA5nQ=s96-c',
+            displayName: 'User Test',
+          },
         },
-      };
+      },
+      expiresAt: user.backstageIdentity.expiresInSeconds,
+    };
 
-      window.localStorage.setItem('googleCypress', JSON.stringify(userItem));
-      cy.visit('http://localhost:3000');
-    });
+    window.localStorage.setItem('token', JSON.stringify(item));
+    window.localStorage.setItem(
+      '@backstage/core:SignInPage:provider',
+      'google-auth-provider',
+    );
   });
 });

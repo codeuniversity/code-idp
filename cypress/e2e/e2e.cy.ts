@@ -1,55 +1,32 @@
-import { STATUS_CODES, request } from 'http';
 import '../support/commands';
 import '../support/index';
+import user from '../fixtures/user.json';
 
 describe('Deployment User story', function () {
   beforeEach(function () {
-    // cy.session('User Session', () => {
-    // });
-    cy.loginByGoogleApi();
+    cy.OAuthlogin();
+    const localStorageItem = localStorage.getItem('token');
+    if (localStorageItem) {
+      const item = JSON.parse(localStorageItem);
+
+      user.backstageIdentity.token = item.body.access_token;
+      user.backstageIdentity.identity.refreshToken = item.body.refresh_token;
+      user.providerInfo.idToken = item.body.id_token;
+      user.providerInfo.accessToken = item.body.access_token;
+      user.providerInfo.scope = item.body.scope;
+
+    }
   });
 
   it('User should be able to login and deploy an express application to cluster on google cloud', function () {
-    const authResult = window.localStorage.getItem('googleCypress');
-
-    expect(authResult).not.to.be.null;
-
-    let jsonIdentityResponse: any;
-
-    if (authResult) {
-      jsonIdentityResponse = JSON.parse(authResult);
-    }
-
-    expect(jsonIdentityResponse.user).not.to.be.null;
-    expect(jsonIdentityResponse.user).not.to.be.empty;
-
-    // cy.intercept('GET', '*', {
-    //   statusCode: 200,
-    //   body: jsonIdentityResponse,
-    // }).intercept('GET', 'localhost:3000', {
-    //   user: jsonIdentityResponse.user,
-    // });
-
-    const fn = cy.stub();
-    cy.stub(fn).returns({
-      signIn: {
-        resolver(_, ctx) {
-          const userRef = 'user:default/guest'; // Must be a full entity reference
-          return ctx.issueToken({
-            claims: {
-              sub: userRef, // The user's own identity
-              ent: [userRef], // A list of identities that the user claims ownership through
-            },
-          });
-        },
-      },
+    cy.intercept('GET', '**/api/auth/**', req => {
+      req.reply(user);
     });
 
-    cy.contains('button', 'Sign In').click();
+    cy.visit('http://localhost:3000/catalog');
 
     expect(cy.contains('Create')).not.to.be.null;
+
+    cy.contains('Create').click();
   });
 });
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')

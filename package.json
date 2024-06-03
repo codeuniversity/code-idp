@@ -17,7 +17,7 @@
     "test": "backstage-cli repo test && playwright test",
     "test:all": "backstage-cli repo test --coverage",
     "test:e2e": "playwright test",
-    "test:cypress": "cypress run --browser firefox --record --key f55bbed2-731e-4dbc-9a89-e6f69a3edd9a --headed",
+    "test:cypress": "cypress run --browser chrome --record --key f55bbed2-731e-4dbc-9a89-e6f69a3edd9a --headed",
     "test:no-e2e": "backstage-cli repo test",
     "fix": "backstage-cli repo fix",
     "lint": "backstage-cli repo lint --since origin/master",
