@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-kubernetes-component
+  labels:
+    # So that you can view the Deployment in backstage
+    backstage.io/kubernetes-id: test-minikube
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-kubernetes-component
+  template:
+    metadata:
+      labels:
+        app: my-kubernetes-component
+        # So that you can view the pod in backstage
+        backstage.io/kubernetes-id: test-minikube
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu
+        command: 
+        - /bin/sh
+        args:
+        - -c
+        - "tail -f /dev/null"
