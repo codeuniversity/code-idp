@@ -1,9 +1,9 @@
 app:
-  title: CUAS Hub
+  title: CODE-IDP Hub
   baseUrl: http://localhost:3000
 
 organization:
-  name: CUAS
+  name: CODE-IDP
 
 backend:
   baseUrl: http://localhost:7007
@@ -22,26 +22,42 @@ backend:
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
+    cache:
+      store: memory
 
 integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN}
 
-techdocs:
-  builder: 'local' # Alternatives - 'external'
-  generator:
-    runIn: 'docker' # Alternatives - 'local'
-  publisher:
-    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
 
+techdocs:
+  builder: 'external'
+  publisher: 
+    type: googleGcs
+    googleGcs:
+      bucketName: ${IDP_BUCKET_NAME}
+      credentials:
+        $file: ${IDP_CREDENTIALS_FILE}
+      region: ${DOCS_STORAGE_REGION}
+
+##scaffolder:
+  
 catalog:
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
     - allow: [Component, System, API, User, Group, Resource, Location, Domain]
-  locations: []
+  locations:
+
+    - type: file
+      target: ../../packages/backend/src/templates/initiate-deployment.yaml
+      rules:
+        - allow: [Template]
 
 auth:
   environment: development
@@ -54,5 +70,8 @@ auth:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
               domain: code.berlin
-      
+    github:
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}
     
