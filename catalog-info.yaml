@@ -5,9 +5,8 @@ metadata:
   name: code-idp
   description: CODE-IDP is the platform to automate the deployment process for the projects using nodejs and flask frameworks. 
     It also enables users to store, view and discover information about projects in CODE. 
-  # Example for optional annotations
-  # annotations:
-  #   github.com/project-slug: backstage/backstage
+  annotations:
+    github.com/project-slug: 'codeuniversity/code-idp'
   #   backstage.io/techdocs-ref: dir:.
 spec:
   type: website

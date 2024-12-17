@@ -35,14 +35,11 @@ integrations:
       token: ${GITLAB_TOKEN}
 
 techdocs:
-  builder: 'external'
-  publisher: 
-    type: googleGcs
-    googleGcs:
-      bucketName: ${IDP_BUCKET_NAME}
-      credentials:
-        $file: ${IDP_CREDENTIALS_FILE}
-      region: ${DOCS_STORAGE_REGION}
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'docker' # Alternatives - 'local'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 ##scaffolder:
   
