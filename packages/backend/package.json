@@ -50,8 +50,7 @@
     "express-promise-router": "^4.1.0",
     "jest-canvas-mock": "^2.5.2",
     "node-gyp": "^9.0.0",
-    "pg": "^8.11.3",
-    "winston": "^3.2.1"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@backstage/cli": "^0.29.0",
