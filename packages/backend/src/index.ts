@@ -3,6 +3,7 @@ import { createBackend } from '@backstage/backend-defaults';
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import { stringifyEntityRef } from '@backstage/catalog-model';
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
+import { googleAuthenticator } from '@backstage/plugin-auth-backend-module-google-provider';
 import { authProvidersExtensionPoint, createOAuthProviderFactory } from '@backstage/plugin-auth-node';
 
 // Create a new backend instance
@@ -15,7 +16,7 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // Add the auth backend
 backend.add(import('@backstage/plugin-auth-backend'));
-backend.add(import('@backstage/plugin-auth-backend-module-google-provider'));
+// backend.add(import('@backstage/plugin-auth-backend-module-google-provider'));
 
 // Custom Github Auth Provider
 export const customGithubAuth = createBackendModule({
@@ -59,6 +60,57 @@ export const customGithubAuth = createBackendModule({
 });
 
 backend.add(customGithubAuth);
+
+
+export const customGoogleAuth = createBackendModule({
+  pluginId: 'auth',
+  moduleId: 'googleProvider',
+  register(reg) {
+    reg.registerInit({
+      deps: { providers: authProvidersExtensionPoint },
+      async init({ providers }) {
+        providers.registerProvider({
+          providerId: 'google',
+          factory: createOAuthProviderFactory({
+            authenticator: googleAuthenticator,
+            async signInResolver(info, ctx) {
+              const {
+                profile: { email },
+              } = info;
+
+              if (!email) {
+                throw new Error('User profile has no email');
+              }
+
+              // Ensure email domain is "code.berlin"
+              const emailDomain = 'code.berlin';
+              const [userId, domain] = email.split('@');
+
+              if (domain !== emailDomain) {
+                throw new Error(`Unauthorized email domain: ${domain}`);
+              }
+
+              const userEntity = stringifyEntityRef({
+                kind: 'User',
+                namespace: 'default',
+                name: userId,
+              });
+
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntity,
+                  ent: [userEntity],
+                },
+              });
+            },
+          }),
+        });
+      },
+    });
+  },
+});
+
+backend.add(customGoogleAuth);
 
 // Add the catalog backend and the catalog entities
 backend.add(import('@backstage/plugin-catalog-backend'));
