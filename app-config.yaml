@@ -63,10 +63,7 @@ auth:
       development:
         clientId: ${GOOGLE_CLIENT_ID}
         clientSecret: ${GOOGLE_CLIENT_SECRET}
-        signIn:
-          resolvers:
-            - resolver: emailLocalPartMatchingUserEntityName
-              domain: code.berlin
+
     github:
       development:
         clientId: ${GITHUB_CLIENT_ID}

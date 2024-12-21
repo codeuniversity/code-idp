@@ -4,10 +4,3 @@ app:
 backend:
   baseUrl: ${BASE_URL}
   listen: ':7007'
-
-catalog:
-  import:
-    entityFilename: catalog-info.yaml
-    pullRequestBranchName: backstage-integration
-  rules:
-    - allow: [Component, System, API, Resource, Location]

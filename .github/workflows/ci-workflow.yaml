@@ -13,15 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18.x', '20.x']
+        node-version: ['20.x', '22.x']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
@@ -44,7 +44,7 @@ jobs:
   validate_commit_messages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Ensure full git history
@@ -73,7 +73,7 @@ jobs:
   validate_branch_names:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Validate Branch Names
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
