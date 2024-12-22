@@ -13,7 +13,7 @@ COPY .yarnrc.yml ./
 COPY packages packages
 
 # Comment this out if you don't have any internal plugins
-COPY plugins plugins
+# COPY plugins plugins
 
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
@@ -55,9 +55,9 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 
 COPY --chown=node:node . .
 
-#RUN ls
+# RUN ls
 
-#RUN ls /app
+# RUN ls /app
 
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
@@ -117,12 +117,13 @@ ARG APP_ENV
 
 
 # Copy any other files that we need at runtime, to understand how the configs work refer to the README.md
-COPY --chown=node:node app-config*.yaml ./
-# COPY --chown=node:node app-config.docker.yaml ./app-config.docker.yaml
-# COPY --chown=node:node app-config.${APP_ENV}.yaml ./app-config.env.yaml
+COPY --chown=node:node app-config.yaml ./
+COPY --chown=node:node app-config.docker.yaml ./app-config.docker.yaml
+COPY --chown=node:node app-config.${APP_ENV}.yaml ./app-config.env.yaml
 
 # This will include the examples, if you don't need these simply remove this line
 COPY --chown=node:node examples ./examples
+
 
 # This switches many Node.js dependencies to production mode. Important APP_ENV and NODE_ENV serve two different purposes
 ENV NODE_ENV production

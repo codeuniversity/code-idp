@@ -41,7 +41,8 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
-##scaffolder:
+# scaffolder:
+
   
 catalog:
   import:
@@ -50,11 +51,15 @@ catalog:
   rules:
     - allow: [Component, System, API, User, Group, Resource, Location, Domain]
   locations:
-
     - type: file
-      target: ../../packages/backend/src/templates/initiate-deployment.yaml
+      target: ./examples/template/initiate-deployment.yaml
       rules:
         - allow: [Template]
+    - type: file
+      target: ./examples/template/template.yaml
+      rules:
+        - allow: [Template]
+        
 
 auth:
   environment: development

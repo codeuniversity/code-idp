@@ -61,7 +61,7 @@ export const customGithubAuth = createBackendModule({
 
 backend.add(customGithubAuth);
 
-
+// Custom Google Auth Provider
 export const customGoogleAuth = createBackendModule({
   pluginId: 'auth',
   moduleId: 'googleProvider',
