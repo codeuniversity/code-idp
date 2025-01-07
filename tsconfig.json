@@ -4,11 +4,14 @@
     "packages/*/src",
     "plugins/*/src",
     "plugins/*/dev",
-    "plugins/*/migrations"
+    "plugins/*/migrations",
+    "tests/**/*",
+    "cypress/**/*"
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "outDir": "dist-types",
-    "rootDir": "."
+    "rootDir": ".",
+    "jsx": "react-jsx"
   }
 }

@@ -3,6 +3,7 @@ import { generateProjects } from '@backstage/e2e-test-utils/playwright';
 
 
 export default defineConfig({
+  testDir: '././packages/app/e2e-tests',
   timeout: 60_000,
 
   expect: {
