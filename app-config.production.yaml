@@ -1,0 +1,9 @@
+app:
+  baseUrl: prodlink
+
+backend:
+  baseUrl: prodlink
+  cors:
+    origin: prodlink
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true

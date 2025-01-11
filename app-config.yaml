@@ -1,9 +1,9 @@
 app:
-  title: Scaffolded Backstage App
+  title: CODE-IDP Hub
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Company
+  name: CODE-IDP
 
 backend:
   baseUrl: http://localhost:7007
@@ -22,11 +22,17 @@ backend:
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
+    cache:
+      store: memory
 
 integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN}
+
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
 
 techdocs:
   builder: 'local' # Alternatives - 'external'
@@ -35,41 +41,36 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
+# scaffolder:
+
+  
 catalog:
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, User, Group, Resource, Location, Domain]
   locations:
     - type: file
-      target: ../../examples/entities.yaml
-
-    - type: file
-      target: ../../examples/template/template.yaml
+      target: ./examples/template/initiate-deployment.yaml
       rules:
         - allow: [Template]
-
     - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
-    - type: url
-      target: https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
+      target: ./examples/template/template.yaml
       rules:
         - allow: [Template]
-
-    - type: file
-      target: ../../packages/backend/src/templates/initiate-deployment.yaml
-      rules:
-        - allow: [Template]
+        
 
 auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
   providers:
     google:
       development:
         clientId: ${GOOGLE_CLIENT_ID}
         clientSecret: ${GOOGLE_CLIENT_SECRET}
+
+    github:
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}
+    

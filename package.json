@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "18 || 20"
+    "node": "20 || 22"
   },
   "scripts": {
-    "dev": "export $(cat .env | egrep -v '#|^$' | xargs) && concurrently \"yarn start\" \"yarn start-backend\"",
+    "dev": "yarn workspaces foreach -A --include backend --include app --parallel -v -i run start",
     "start": "yarn workspace app start",
     "start-backend": "yarn workspace backend start",
     "build:backend": "yarn workspace backend build",
@@ -41,12 +41,14 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.25.1",
-    "@backstage/e2e-test-utils": "^0.1.0",
+    "@babel/preset-react": "^7.26.3",
+    "@backstage/cli": "^0.29.0",
+    "@backstage/e2e-test-utils": "^0.1.1",
     "@playwright/test": "^1.32.3",
     "@spotify/prettier-config": "^12.0.0",
     "canvas": "^2.11.2",
     "concurrently": "^8.0.0",
+    "cross-env": "^7.0.3",
     "jest-canvas-mock": "^2.5.2",
     "jsdom": "^24.0.0",
     "lerna": "^7.3.0",
@@ -67,5 +69,6 @@
     "*.{json,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "yarn@4.4.1"
 }

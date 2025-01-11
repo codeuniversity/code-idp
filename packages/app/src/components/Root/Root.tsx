@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { makeStyles } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
+import WindowRoundedIcon from '@mui/icons-material/WindowRounded';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import MapIcon from '@material-ui/icons/MyLocation';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import {
@@ -24,8 +24,9 @@ import {
   useSidebarOpenState,
   Link,
 } from '@backstage/core-components';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded';
 import SearchIcon from '@material-ui/icons/Search';
+import AppRegistrationRoundedIcon from '@mui/icons-material/AppRegistrationRounded';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -63,12 +64,18 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarSearchModal />
       </SidebarGroup>
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+      <SidebarGroup label="Menu" icon={<MenuOpenRoundedIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
+        <SidebarItem icon={WindowRoundedIcon} to="catalog" text="Home" />
         <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
         <SidebarItem icon={LibraryBooks} to="docs" text="Documents" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create...." />
+        <SidebarItem icon={BackupRoundedIcon} to="create" text="Deploy" />
+        <SidebarItem
+          icon={AppRegistrationRoundedIcon}
+          to="catalog-import"
+          text="Register"
+        />
+
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>

@@ -1,13 +1,38 @@
+---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: demo-app
-  description: An example of a Backstage application.
-  # Example for optional annotations
-  # annotations:
-  #   github.com/project-slug: backstage/backstage
+  name: code-idp
+  description: CODE-IDP is the platform to automate the deployment process for the projects using nodejs and flask frameworks. 
+    It also enables users to store, view and discover information about projects in CODE. 
+  annotations:
+    github.com/project-slug: 'codeuniversity/code-idp'
   #   backstage.io/techdocs-ref: dir:.
 spec:
   type: website
-  owner: john@example.com
-  lifecycle: experimental
+  owner: code_idp_team
+  lifecycle: production
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: idp-hosted-projects
+  description: The IDP Hosted Projects component is a collection of flask and nodejs projects that are hosted on google cloud using the automated deployment.
+spec:
+  type: service
+  owner: code_idp_team
+  lifecycle: production
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: code_idp_team
+  description: The CODE-IDP team is responsible for the development and maintenance of the Internal Developer Platform.
+spec:
+  type: team
+  profile:
+    displayName: Infrastructure Team
+    email: infra@code-idp.com
+  children: []
+  members: [Yvette]
