@@ -1,0 +1,31 @@
+name: Automatically delete merged branches on PR merge
+
+on:
+    pull_request:
+        types:
+            - closed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+    delete-merged-branches:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Delete Branch after merge (Except main)
+              run: |
+                BRANCH_NAME=${{ github.event.pull_request.head.ref }}
+
+                # Prevent deletion of the main branch
+                if [ "${{ github.event.pull_request.merged }}" == "true" ] && [ "$BRANCH_NAME" != "main" ]; then
+                  echo "Deleting merged branch: $BRANCH_NAME"
+                  git push origin --delete $BRANCH_NAME
+                else
+                  echo "Branch not deleted. Either it was not merged or it was 'main'."
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
