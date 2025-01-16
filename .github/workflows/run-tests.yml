@@ -9,10 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version
+        run: corepack prepare yarn@4.4.1 --activate
+
+        
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+
       - run: yarn install
       - run: yarn backstage-cli repo test
 
