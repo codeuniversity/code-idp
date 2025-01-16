@@ -1,0 +1,48 @@
+name: Delete old merged and unmerged branches
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  #Run every day at midnight
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+    delete-old-branches:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Delete old branches (Except main)
+              run: |
+                git fetch --prune 
+
+                # Delete merged branches older than 30 days, except main
+                for branch in $(git branch -r --merged | grep -v "main" | grep -v "HEAD"); do
+                  BRANCH_NAME=$(echo $branch | sed 's/origin\///')
+                  LAST_COMMIT_DATE=$(git log -1 --format=%ci $BRANCH_NAME)
+                  DAYS_OLD=$(echo $(( ( $(date +%s) - $(date -d "$LAST_COMMIT_DATE" +%s) ) / 86400 )))
+                  
+                  if [[ $DAYS_OLD -gt 30 ]]; then
+                      echo "Deleting merged branch: $BRANCH_NAME"
+                      git push origin --delete $BRANCH_NAME
+                  fi
+                done
+
+                # Delete unmerged branches older than 90 days, except main
+                for branch in $(git branch -r --no-merged | grep -v "main" | grep -v "HEAD"); do
+                    BRANCH_NAME=$(echo $branch | sed 's/origin\///')
+                    LAST_COMMIT_DATE=$(git log -1 --format=%ci $BRANCH_NAME)
+                    DAYS_OLD=$(echo $(( ( $(date +%s) - $(date -d "$LAST_COMMIT_DATE" +%s) ) / 86400 )))
+                    
+                    if [[ $DAYS_OLD -gt 90 ]]; then
+                        echo "Deleting stale unmerged branch: $BRANCH_NAME"
+                        git push origin --delete $BRANCH_NAME
+                    fi
+                done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

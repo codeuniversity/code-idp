@@ -1,10 +1,10 @@
 
 name: Deploy backstage
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI Workflow"]
+    types:
+      - completed
 
 jobs:
   create-and-push-image:
