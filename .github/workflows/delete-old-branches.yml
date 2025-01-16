@@ -21,6 +21,9 @@ jobs:
               run: |
                 git fetch --prune 
 
+                # Get the list of merged branches (remote)
+                MERGED_BRANCHES=$(git branch -r --merged origin/main | grep -v "main" | grep -v "HEAD")
+
                 # Delete merged branches older than 30 days, except main
                 for branch in $(git branch -r --merged | grep -v "main" | grep -v "HEAD"); do
                   BRANCH_NAME=$(echo $branch | sed 's/origin\///')
