@@ -89,3 +89,6 @@ jobs:
             GITHUB_TOKEN=github_token:latest
             GOOGLE_CLIENT_ID=google_client_id:latest
             GOOGLE_CLIENT_SECRET=google_client_secret:latest
+            GITHUB_CLIENT_SECRET=github_client_secret:latest
+            GITHUB_CLIENT_ID=github_client_id:latest
+            
