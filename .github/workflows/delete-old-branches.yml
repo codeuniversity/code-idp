@@ -48,4 +48,4 @@ jobs:
                     fi
                 done
         env:
-          GITHUB_TOKEN: ${{ secrets.CODE-IDP-GITHUB-TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CODE_IDP_TOKEN }}
