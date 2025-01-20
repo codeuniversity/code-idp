@@ -94,7 +94,7 @@ jobs:
             branch_name=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $branch_name"
           fi
-          if ! echo "$branch_name" | grep -Eq '^(main|feature/.+|hotfix/.+)$'; then
+          if ! echo "$branch_name" | grep -Eq '^(main|feature/.+|hotfix/.+|dependabot/.+)$'; then
             echo "Error: Branch name $branch_name does not fit the naming convention."
             exit 1
           fi
