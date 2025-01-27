@@ -1,9 +1,17 @@
 app:
-  baseUrl: prodlink
+  baseUrl: https://backstage.code-idp.com
 
 backend:
-  baseUrl: prodlink
+  baseUrl: https://backstage.code-idp.com
   cors:
-    origin: prodlink
+    origin: https://backstage.code-idp.com
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+
+auth:
+  environment: production
+  providers:
+    github:
+      production:
+        clientId: ${PROD_GITHUB_CLIENT_ID}
+        clientSecret: ${PROD_GITHUB_CLIENT_SECRET}
