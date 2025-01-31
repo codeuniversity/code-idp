@@ -4,22 +4,3 @@ app:
 backend:
   baseUrl: ${BASE_URL}
   listen: ':7007'
-
-catalog:
-  import:
-    entityFilename: catalog-info.yaml
-    pullRequestBranchName: backstage-integration
-  rules:
-    - allow: [Component, System, API, Resource, Location]
-  locations:
-    - type: file
-      target: minikube/catalog-info.yaml
-
-
-auth:
-  environment: production
-  providers: 
-    github:
-      production:
-        clientId:  ${GITHUB_CLIENT_ID} 
-        clientSecret: ${GITHUB_CLIENT_SECRET}

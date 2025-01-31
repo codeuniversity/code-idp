@@ -3,9 +3,70 @@
 # Setup for code-idp as a developer:
 
 Prerequisites:
+- Node 18.20.3
+<details>
+<summary>Installing Node 18.20.3 (using NVM)</summary>
+<br>
+To install node and npm in Ubuntu on WSL you need to install nvm. It doesn't work with apt-install.
+<br>
+Install NVM:
+
+```sh 
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+```
+
+Edit ~/.bashrc or ~/.zshrc depending on the Linux Shell you're using and add the following at the bottom.
+
+```sh 
+export NVM_DIR="/home/yourusername/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+Restart your shell and docker after this step. 
+<br>
+nvm install node version 18.20.3
+
+```sh 
+nvm install v18.20.3
+```
+Version of node and npm last working:
+<br>
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/0dd022ba-dbc9-43b0-83aa-b1b5a1bb3ce7)
+
+<br>
+Node version: 18.20.3
+NPM version: 10.7.0
+</details>
 
 - [Yarn 1 "Classic"](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+<details>
+<summary>Installing Docker on WSL or Linux</summary>
+<br>
+
+For Linux, follow this [link](https://docs.docker.com/engine/install/ubuntu/)
+
+for Ubuntu Docker install.
+<br>
+
+For WSL, use this [link](https://docs.docker.com/desktop/wsl/) 
+(do not install docker on the linux distro on WSL.)
+
+<br>
+Notes:
+Make sure that for the windows Docker engine that you have this option activated.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/f04a2912-0365-4711-b69c-f4b56b6818a4)
+
+<br>
+When Running "wsl.exe -l -v", make sure all versions are on WSL2.
+<br>
+
+![image](https://github.com/codeuniversity/code-idp/assets/102903601/b728d802-4aec-4771-b4d5-4ac88b9709f7)
+
+</details>
+
 
 Clone the repository and install node_modules:
 ```sh  
@@ -36,18 +97,10 @@ POSTGRES_PASSWORD="admin"
 
 BASE_URL="http://localhost:7007"
 
-GITHUB_CLIENT_ID="your-id"
-GITHUB_CLIENT_SECRET="your-secret"
-
 GOOGLE_CLIENT_ID= "google_client_id"
 GOOGLE_CLIENT_SECRET= "google_client_secret"
 
 GITHUB_TOKEN="your-token"
-
-K8S_URL="k8s-url"
-K8S_ACCOUNT_TOKEN="k8s-account-token"
-K8S_CA_DATA="k8s-ca-data"
-K8S_CA_FILE="k8s-ca-file"
 ```
 
 <details>
@@ -62,10 +115,6 @@ All of the environment variables prefixed with POSTGRES_ should stay like they a
 <br>
 Keep it the same as it is right now, this is the url on which the application is running. 
 
-**`GITHUB_CLIENT`:**
-<br>
-These environment variables are to setup correct [authentication](https://backstage.io/docs/getting-started/configuration#setting-up-authentication). Please follow [these](#github-auth) steps.
-
 **`GOOGLE_CLIENT`:**
 <br>
 These environment variables are to allow google login with your code.berlin email.
@@ -76,11 +125,6 @@ Use the link above and copy the client ID and secret.
 <br>
 This environment variable is to configure the [GitHub integration](https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration), 
 so that Backstage can interact with your GitHub account and for example create a repository for you. Please follow [these](#github-integration) steps for the setup.
-
-**`K8S_URL`:**
-<br>
-These environment variables are to configure the [kubernetes plugin](https://backstage.io/docs/features/kubernetes/). 
-To setup you local minikube environment follow [these](#kubernetes) steps.
 </details>
 
 # Setup Essentials
@@ -120,8 +164,12 @@ To get you GitHub integration working you need to generate yourself a new token 
 2. Write a note (can be empty but encourged so you know what the tokens belongs to)
 3. Set an expiration date (can be unlimited just be careful not to share it or you might have to revoke it manully)
 4. Select a scope the following is enough for basic usage (may have to adjusted if you want to go beyong the basic scope)
+
 <img height="400" alt="img" src="./images/githubintegration.svg">
+
 5. Copy and paste your `GitHub Token` and paste it into the correct environment variable (`GITHUB_TOKEN`)
+
+6. follow this guide in order to authorize your token: https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on
 
 # Running Environments
 If you have followed the essential setup steps ([Setup database](#setup-database-with-docker), [GitHub Auth](#github-auth) and [GitHub Integration](#github-integration)) 
@@ -129,7 +177,6 @@ then you can decide where you to run backstage:
 
 1. [locally](#running-with-yarn-dev) with `yarn dev` (recommended for regular development due to short waiting time on changes)
 2. inside of a [docker container](#running-with-docker-compose) (recommended only to test certain environments due to high waiting time because of high image build time (up to 5 mins))
-3. inside of [minikube](#running-with-minikube) (only recommended to test to be the closest to the actual production environment (for testing))
 <br>
  !! Note this is based on assumption that we will host `Backstage` inside of the Kubernetes cluster where we host the other dev projects
 
@@ -174,107 +221,6 @@ To remove all containers (**IMPORTANT** this also removes the database container
 yarn docker:remove-all
 ```
 
-# Kubernetes
-The following talks about two different topics (it is highly encourged to watch a short [tutorial](https://www.youtube.com/watch?v=PziYflu8cB8) on Kubernetes before continuing):
-
-1. How to setup minikube and how to use Backstage to monitor pods that are running inside of Kubernetes.
-2. How to run Backstage itself inside of the minikube cluster (and still be able to monitor the pods that are running in Kubernetes, which means the first step is a pre-requisite of this step).
-The reason for having the second step is more for testing purposes because this setup is the closest to the actual production environment 
-
-> Note again here the second step is only true if we actually host Backstage in the same cluster as the other deployments
-
-## Setup with `minikube`
-Pre-requisite: Docker installed
-
-To setup minikube and the [Kubernetes plugin](https://backstage.io/docs/features/kubernetes/) so that we can monitor Kubernetes pods 
-through Backstage we need to do the following:
-1. Install `kubectl`
-    <br>
-    1.1 Install the correct version of `kubectl` depending on your operation system: [linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), 
-    [macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) or [windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/). On macOS installing with
-    homebrew is recommended by me.
-    <br>
-    1.2 Quick Note about `kubectl`: `kubectl` is the cli tool that can interact with an existing Kubernetes cluster and it has different `contexts` for different cluster. 
-    If this is your first time installing `kubectl` and you most likely do not have a cluster that you are connected to at this point, we will set up a local cluster with `minikube`
-    in the following setup, and that will automatically set your context to the correct cluster (in this case `minikube`).
-    To see all your contexts run `kubectl config get-contexts`.
-2. Install `minikube`
-    <br>
-    2.1 Follow [this guide](https://minikube.sigs.k8s.io/docs/start/#installation) to install minikube and also how to run minikube inside of a docker, make sure you install minikube for the correct system.
-    Installing on macOS with homebrew is recommended by me.
-    <br>
-    2.2 Start minikube clutser with `minikube start` (can take a few minutes)
-    <br>
-    NOTE: If you have installed kubectl, `minikube start` will automatically set your current context to the `minikube` context!
-    <br>
-    2.3 To test if the installation worked run: `kubectl get pods -A` and you should have an output similiar to this:
-    ```
-    NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
-    kube-system   coredns-5d78c9869d-4jq4h           1/1     Running   0               9m43s
-    kube-system   etcd-minikube                      1/1     Running   0               9m56s
-    kube-system   kube-apiserver-minikube            1/1     Running   0               9m58s
-    kube-system   kube-controller-manager-minikube   1/1     Running   0               9m58s
-    kube-system   kube-proxy-8dzhs                   1/1     Running   0               9m44s
-    kube-system   kube-scheduler-minikube            1/1     Running   0               9m56s
-    kube-system   storage-provisioner                1/1     Running   1 (9m39s ago)   9m56s
-    ```
-3. Setup `minikube` for Backstage
-    <br>
-    <br>
-    **3.1 Create a service account so that backstage can access the cluster**
-    ```sh
-    kubectl apply -f minikube/clusterrolebinding.yaml
-
-    kubectl get secrets cluster-admin-secret -o jsonpath="{.data['token']}" | base64 --decode; echo
-    ```
-    copy and paste that token in the K8S_ACCOUNT_TOKEN environment variable in your .env
-    <br>
-    <br>
-    **3.2 Get the certificate authority for minikube**
-    ```sh
-    cat ~/.minikube/ca.crt | base64
-    ```
-    copy and paste that certificate in the K8S_CA_DATA environment variable in your .env
-    <br>
-    <br>
-    **3.3 Get the URL that `minikube` is running on**
-    ```sh
-    kubectl cluster-info
-    ```
-    copy and paste the first URL in the K8S_URL environment variable in your .env
-    <br>
-    <br>
-    **3.4 Run pod in `minikube` to be inspected by `Backstage`**
-    ```sh
-    kubectl apply -f minikube/test-deployment.yaml
-    ```
-    
-> NOTE: we leave the K8S_CA_FILE environment variable empty for now because that is only needed if you run Backstage in the cluster, 
-for now it is recommended only to run it [locally](#running-with-yarn-dev) or run in [docker](#running-with-docker-compose) to be able to run it inside of minikube read [here](#running-with-minikube)
-
-4. [Run](#running-environments) backstage (recommended [locally](#running-with-yarn-dev))
-    <br>
-    NOTE: If you want to run backstage inside of the docker container you need to change the K8S_URL variable to: https://host.docker.internal:[YOUR-PORT]
-    <br>
-
-    4.1 Click on `test-minikube`
-    <br>
-    <img height="200" alt="img" src="./images/backstage-example.svg">
-
-    4.2 Click on `Kubernetes`
-    <br>
-    <img height="150" alt="img" src="./images/backstage-kubernetes.svg">
-
-    4.3 Now you should see this:
-    <br>
-    <img height="200" alt="img" src="./images/backstage-kube-success.svg">
-    
-5. To see how you can expose your own Backstage entities follow 
-[this](https://backstage.io/docs/features/kubernetes/configuration#surfacing-your-kubernetes-components-as-part-of-an-entity) guide
-
-## Running with `minikube` 
-Work in progress -> Not necessary for development right now.
-
 # Configuration
 To get a better understanding of how the app-config.yaml files work please refer to [this](https://backstage.io/docs/conf/writing).
 Specifically the part about the [config files](https://backstage.io/docs/conf/writing#configuration-files) is important to understand.
@@ -303,10 +249,6 @@ This file changes some base values that are necessary to build the correct image
 - baseUrl because the docker image bundles the frontend into the backend -> therefore we only have one 
 - auth.github because we set the NODE_ENV to production for the image 
 - catalog because it interprets the paths from local directories differently in the image
-
-**`app-config.production.yaml`:**
-<br>
-This file adds one line to the kubernetes plugin setup, which is only needed if the app is hosted inside of a kubernetes cluster.
 
 # Testing
 

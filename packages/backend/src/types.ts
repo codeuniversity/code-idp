@@ -1,3 +1,4 @@
+/*
 import { Logger } from 'winston';
 import { Config } from '@backstage/config';
 import {
@@ -23,3 +24,4 @@ export type PluginEnvironment = {
   permissions: PermissionEvaluator;
   identity: IdentityApi;
 };
+*/

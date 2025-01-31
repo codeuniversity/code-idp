@@ -3,34 +3,40 @@ name: CI Workflow
 on:
   push:
     branches:
-      - '**'
+      - main
   pull_request:
     branches:
-      - '**'
+      - main
 
 jobs:
   setup_and_test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18.x', '20.x']
+        node-version: ['20.x']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version
+        run: corepack prepare yarn@4.4.1 --activate
+      
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: 'yarn'          
 
       - name: Check Node.js version
         run: node -v
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       # - name: Lint code
       #   run: yarn lint:all
@@ -44,7 +50,7 @@ jobs:
   validate_commit_messages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Ensure full git history
@@ -73,7 +79,7 @@ jobs:
   validate_branch_names:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Validate Branch Names
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -88,7 +94,7 @@ jobs:
             branch_name=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $branch_name"
           fi
-          if ! echo "$branch_name" | grep -Eq '^(main|feature/.+|hotfix/.+)$'; then
+          if ! echo "$branch_name" | grep -Eq '^(main|feature/.+|hotfix/.+|dependabot/.+)$'; then
             echo "Error: Branch name $branch_name does not fit the naming convention."
             exit 1
           fi

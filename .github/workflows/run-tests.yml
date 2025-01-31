@@ -1,8 +1,6 @@
-name: Test and E2E tests
-run-name: Run tests and E2E tests
-
+name: Test and E2E tests on PR
+run-name: Run tests and E2E tests on PR
 on:  
-  push:
   pull_request:
     branches:
       - main
@@ -11,28 +9,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version
+        run: corepack prepare yarn@4.4.1 --activate
+
+        
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+
       - run: yarn install
       - run: yarn backstage-cli repo test
 
   run-e2e-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 #chekcout te repository
+      - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn Version
+        run: corepack prepare yarn@4.4.1 --activate
+        
       - name: Use Node.js
-        uses: actions/setup-node@v3 #setup node version 20
+        uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Install dependencies #install dependencies
+      - name: Install dependencies
         run: yarn install
 
       - name: Run E2E tests
         env:
-          PLAYWRIGHT_URL: http://localhost:3000 # set the URL of the app to test with playwright
-          CI: # unset CI because it is set by default in Github actions
+          PLAYWRIGHT_URL: http://localhost:3000
+          CI:
         run: |
           yarn test:e2e

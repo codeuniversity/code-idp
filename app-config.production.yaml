@@ -1,15 +1,17 @@
-# Only difference here is that we need a caFile if it is deployed inside of a kube cluster
-kubernetes:
-  serviceLocatorMethod:
-    type: multiTenant
-  clusterLocatorMethods:
-    - type: config
-      clusters:
-        - url: ${K8S_URL}
-          name: "k8s"
-          authProvider: serviceAccount
-          skipTLSVerify: false
-          skipMetricsLookup: true
-          serviceAccountToken: ${K8S_ACCOUNT_TOKEN}
-          caData: ${K8S_CA_DATA}
-          caFile: ${K8S_CA_FILE}
+app:
+  baseUrl: https://backstage.code-idp.com
+
+backend:
+  baseUrl: https://backstage.code-idp.com
+  cors:
+    origin: https://backstage.code-idp.com
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+auth:
+  environment: production
+  providers:
+    github:
+      production:
+        clientId: ${PROD_GITHUB_CLIENT_ID}
+        clientSecret: ${PROD_GITHUB_CLIENT_SECRET}
