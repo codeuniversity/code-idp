@@ -44,7 +44,7 @@ jobs:
         id: 'login-gar'
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.GCP_REGION }}-docker.pkg.dev
+          registry: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_GAR_REPO }}
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
