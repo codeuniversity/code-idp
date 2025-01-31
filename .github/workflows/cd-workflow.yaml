@@ -37,7 +37,7 @@ jobs:
         with:
           create_credentials_file: true
           token_format: "access_token"
-          workload_identity_provider: 'projects/1006240973223/locations/global/workloadIdentityPools/deploy-backstage/providers/github-actions'
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_DEPLOY_SA }}
 
       - name: "Login to GAR"
@@ -82,24 +82,20 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/1006240973223/locations/global/workloadIdentityPools/deploy-backstage/providers/github-actions'
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_DEPLOY_SA }}
 
-      - id: 'deploy'
+      - name: Deploy to Cloud Run
+        id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
-          flags: '--port=7007 --add-cloudsql-instances=code-idp:europe-west10:backstage-pg'
-          env_vars: |
-            POSTGRES_HOST=/cloudsql/code-idp:europe-west10:backstage-pg
-            POSTGRES_PORT=5432
-            POSTGRES_USER=postgres
-            BASE_URL=https://backstage.foundations-software-engineering.com
+          flags: '--platform managed --allow-unauthenticated --port=7007'
           secrets: |-
-            POSTGRES_PASSWORD=postgres-password:latest
             GITHUB_TOKEN=github_token:latest
+            GITLAB_TOKEN=gitlab_token:latest
             GOOGLE_CLIENT_ID=google_client_id:latest
             GOOGLE_CLIENT_SECRET=google_client_secret:latest
             PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest
