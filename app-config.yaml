@@ -39,7 +39,7 @@ techdocs:
   generator:
     runIn: 'docker' # Alternatives - 'local'
   publisher:
-    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+    type: 'googleGcs' # Alternatives - 'awsS3', 'azureBlobStorage'
 
 # scaffolder:
 
@@ -56,7 +56,11 @@ catalog:
       rules:
         - allow: [Template]
     - type: file
-      target: ./examples/template/template.yaml
+      target: ./examples/template/register-component.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/sample-document.yaml
       rules:
         - allow: [Template]
         

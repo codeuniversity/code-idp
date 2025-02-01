@@ -57,5 +57,6 @@ pg_values.yaml
 
 *secret.yaml
 
+.vscode/
 
 key/

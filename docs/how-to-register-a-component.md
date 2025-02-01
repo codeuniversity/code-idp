@@ -1,4 +1,4 @@
-# How to register a component and define service dependency and RTO
+# How to register a component and define service dependency
 
 ## Register a new service(component)
 

@@ -1,0 +1,14 @@
+site_name: CODE-IDP Platform
+site_description: This is the user guide for the CODE-IDP platform.
+docs_dir: docs
+nav:
+  - Overview:
+    - Introduction: 'index.md'
+  - Components:
+    - Register Your Software Component: 'how-to-register-a-component.md'
+  - Technical Documentation: 
+    - Publish Your Docs: 'how-to-publish-documentation.md'
+
+plugins: 
+  - techdocs-core
+  - include-markdown

@@ -7,13 +7,14 @@ metadata:
     It also enables users to store, view and discover information about projects in CODE. 
   annotations:
     github.com/project-slug: 'codeuniversity/code-idp'
-  #   backstage.io/techdocs-ref: dir:.
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: website
   owner: code_idp_team
   lifecycle: production
 
 ---
+
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
@@ -35,4 +36,4 @@ spec:
     displayName: Infrastructure Team
     email: infra@code-idp.com
   children: []
-  members: [Yvette]
+  members: [Yvette...]
