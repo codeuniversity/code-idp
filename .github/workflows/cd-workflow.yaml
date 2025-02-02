@@ -90,6 +90,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
