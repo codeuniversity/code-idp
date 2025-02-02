@@ -1,10 +1,10 @@
 app:
-  baseUrl: https://backstage.code-idp.com
+  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
 
 backend:
-  baseUrl: https://backstage.code-idp.com
+  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
   cors:
-    origin: https://backstage.code-idp.com
+    origin: https://backstage-deployment-1006240973223.europe-west10.run.app
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
 
