@@ -107,14 +107,7 @@ jobs:
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{secrets.GCP_GAR_IMAGE}}
           region: ${{ secrets.GCP_REGION }}
-          flags: |
-            --platform managed \
-            --allow-unauthenticated \
-            --port=7007 \
-          secrets: |
-            GITHUB_TOKEN=github_token:latest
-            GITLAB_TOKEN=gitlab_token:latest
-            GOOGLE_CLIENT_ID=google_client_id:latest
-            GOOGLE_CLIENT_SECRET=google_client_secret:latest
-            PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest
-            PROD_GITHUB_CLIENT_ID=github_client_id:latest
+          flags: >
+            --platform managed
+            --allow-unauthenticated
+            --port=7007
