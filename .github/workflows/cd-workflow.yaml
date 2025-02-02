@@ -105,7 +105,7 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
-          image: ${{secrets.GCP_GAR_IMAGE}}
+          image: ${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
           flags: >
             --allow-unauthenticated
