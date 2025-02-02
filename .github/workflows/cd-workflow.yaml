@@ -101,8 +101,8 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        run: |
-          gcloud run deploy 
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
@@ -110,4 +110,10 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --port=7007 \
-            --set-secrets=GITHUB_TOKEN=github_token:latest,GITLAB_TOKEN=gitlab_token:latest,GOOGLE_CLIENT_ID=google_client_id:latest,GOOGLE_CLIENT_SECRET=google_client_secret:latest,PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest,PROD_GITHUB_CLIENT_ID=github_client_id:latest
+          secrets: |
+            GITHUB_TOKEN=github_token:latest
+            GITLAB_TOKEN=gitlab_token:latest
+            GOOGLE_CLIENT_ID=google_client_id:latest
+            GOOGLE_CLIENT_SECRET=google_client_secret:latest
+            PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest
+            PROD_GITHUB_CLIENT_ID=github_client_id:latest
