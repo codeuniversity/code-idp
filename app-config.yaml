@@ -35,11 +35,13 @@ integrations:
       token: ${GITLAB_TOKEN}
 
 techdocs:
-  builder: 'local' # Alternatives - 'external'
-  generator:
-    runIn: 'docker' # Alternatives - 'local'
+  builder: 'external' 
   publisher:
-    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+    type: 'googleGcs'
+    googleGcs:
+      bucketName: 'backstage-codeidp-techdocs' 
+      projectId: code-idp
+      credentials: ./key/code-idp-e144f8987002.json
 
 # scaffolder:
 
@@ -56,7 +58,11 @@ catalog:
       rules:
         - allow: [Template]
     - type: file
-      target: ./examples/template/template.yaml
+      target: ./examples/template/register-component.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/sample-document.yaml
       rules:
         - allow: [Template]
         
