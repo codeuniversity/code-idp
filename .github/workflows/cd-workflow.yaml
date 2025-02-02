@@ -94,22 +94,20 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_DEPLOY_SA }}
 
+      - name: Set up GCP SDK 
+        uses: google-github-actions/setup-gcloud@v1
+        with: 
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          gcloud run deploy 
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
           flags: |
-            --platform managed
-            --allow-unauthenticated
-            --port=7007
-          secrets: |
-            GITHUB_TOKEN=github_token:latest
-            GITLAB_TOKEN=gitlab_token:latest
-            GOOGLE_CLIENT_ID=google_client_id:latest
-            GOOGLE_CLIENT_SECRET=google_client_secret:latest
-            PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest
-            PROD_GITHUB_CLIENT_ID=github_client_id:latest
+            --platform managed \
+            --allow-unauthenticated \
+            --port=7007 \
+            --set-secrets=GITHUB_TOKEN=github_token:latest,GITLAB_TOKEN=gitlab_token:latest,GOOGLE_CLIENT_ID=google_client_id:latest,GOOGLE_CLIENT_SECRET=google_client_secret:latest,PROD_GITHUB_CLIENT_SECRET=github_client_secret:latest,PROD_GITHUB_CLIENT_ID=github_client_id:latest
