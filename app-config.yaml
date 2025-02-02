@@ -41,7 +41,8 @@ techdocs:
     googleGcs:
       bucketName: 'backstage-codeidp-techdocs' 
       projectId: code-idp
-      credentials: ${}      
+      credentials: ./key/code-idp-e144f8987002.json
+
 # scaffolder:
 
   
