@@ -108,6 +108,5 @@ jobs:
           image: ${{secrets.GCP_GAR_IMAGE}}
           region: ${{ secrets.GCP_REGION }}
           flags: >
-            --platform managed
             --allow-unauthenticated
             --port=7007
