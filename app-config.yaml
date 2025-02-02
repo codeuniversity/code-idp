@@ -35,12 +35,13 @@ integrations:
       token: ${GITLAB_TOKEN}
 
 techdocs:
-  builder: 'local' # Alternatives - 'external'
-  generator:
-    runIn: 'docker' # Alternatives - 'local'
+  builder: 'external' 
   publisher:
-    type: 'googleGcs' # Alternatives - 'awsS3', 'azureBlobStorage'
-
+    type: 'googleGcs'
+    googleGcs:
+      bucketName: 'backstage-codeidp-techdocs' 
+      projectId: code-idp
+      credentials: ${}      
 # scaffolder:
 
   
