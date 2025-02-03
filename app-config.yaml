@@ -44,8 +44,11 @@ integrations:
     - host: gitlab.com
       token: ${GITLAB_TOKEN}
 
+
 techdocs:
-  builder: 'external' 
+  builder: 'external'
+  generator:
+    runIn: 'local'
   publisher:
     type: 'googleGcs'
     googleGcs:
