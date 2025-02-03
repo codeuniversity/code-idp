@@ -120,7 +120,6 @@ ARG APP_ENV
 COPY --chown=node:node app-config.yaml ./
 COPY --chown=node:node app-config.docker.yaml ./app-config.docker.yaml
 COPY --chown=node:node app-config.${APP_ENV}.yaml ./app-config.env.yaml
-COPY --chown=node:node app-config.production.yaml ./app-config.production.yaml
 
 # This will include the examples, if you don't need these simply remove this line
 COPY --chown=node:node examples ./examples
