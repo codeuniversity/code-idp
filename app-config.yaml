@@ -15,6 +15,7 @@ backend:
     origin: http://localhost:3000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+
   database:
     client: pg
     connection:
@@ -34,8 +35,11 @@ integrations:
     - host: gitlab.com
       token: ${GITLAB_TOKEN}
 
+
 techdocs:
-  builder: 'external' 
+  builder: 'external'
+  generator:
+    runIn: 'local'
   publisher:
     type: 'googleGcs'
     googleGcs:

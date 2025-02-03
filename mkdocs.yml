@@ -8,6 +8,7 @@ nav:
     - Register Your Software Component: 'how-to-register-a-component.md'
   - Technical Documentation: 
     - Publish Your Docs: 'how-to-publish-documentation.md'
+  - CHANGELOG: 'CHANGELOG.md'
 
 plugins: 
   - techdocs-core
