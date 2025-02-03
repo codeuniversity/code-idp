@@ -115,4 +115,4 @@ jobs:
           env_vars: |
             POSTGRES_HOST=/cloudsql/${{ secrets.GCP_SQL_CONNECTION_NAME }}
             POSTGRES_PORT=5432
-          #  BASE_URL=https://backstage.foundations-software-engineering.com
+            BASE_URL=https://backstage.foundations-software-engineering.com

@@ -1,23 +1,12 @@
 app:
-  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
+  baseUrl: https://backstage.foundations-software-engineering.com
 
 backend:
-  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
+  baseUrl: https://backstage.foundations-software-engineering.com
   cors:
-    origin: https://backstage-deployment-1006240973223.europe-west10.run.app
+    origin: https://backstage.foundations-software-engineering.com
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
-  database:
-    client: pg
-    connection:
-      host: ${POSTGRES_HOST}
-      port: ${POSTGRES_PORT}
-      user: ${POSTGRES_USER}
-      password: ${POSTGRES_PASSWORD}
-    plugin:
-      auth:
-        connection: 
-          database: ${POSTGRES_DB}
 
 auth:
   environment: production

@@ -16,6 +16,25 @@ backend:
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
 
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+    knexConfig:
+      pool:
+        min: 15
+        max: 30
+        acquireTimeoutMillis: 60000
+        createTimeoutMillis: 30000
+        destroyTimeoutMillis: 5000
+        idleTimeoutMillis: 60000
+        reapIntervalMillis: 1000
+        createRetryIntervalMillis: 200
+        propagateCreateError: false
+
 integrations:
   github:
     - host: github.com
