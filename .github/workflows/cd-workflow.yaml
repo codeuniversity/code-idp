@@ -102,17 +102,13 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v1
         with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
           image: ${{ secrets.GCP_GAR_REPO }}/backstage-image:${{ github.sha }}
           region: ${{ secrets.GCP_REGION }}
           flags: >
             --allow-unauthenticated
-            --port=7007
-            --add-cloudsql-instances=code-idp:europe-west10:backstage-pg2
           env_vars: |
-            POSTGRES_USER=postgres
-            POSTGRES_HOST=/cloudsql/code-idp:europe-west10:backstage-pg2
-            POSTGRES_PORT=5432
             BASE_URL=https://backstage.foundations-software-engineering.com
