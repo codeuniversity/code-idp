@@ -19,7 +19,7 @@ metadata:
     description: Short description of your service
 spec:
     type: service
-    lifecycle: development or production
+    lifecycle: development or production or experimental
     owner: name_of_team or individual # Use an underscore to separate words for your team name
 ```
 
@@ -29,7 +29,7 @@ A minimal repository with an example can be found here:
 
 ### Register the component in Backstage
 
-1. Click Create and then go to [Register an existing component]()
+1. Click Create and then go to [Register an existing component](https://backstage-deployment-1006240973223.europe-west10.run.app/catalog-import)
 section, paste the URL of the `catalog.yml` file in your repository
 (E.g. ``)
 1. Click **ANALYZE**, review and confirm the import with the button **IMPORT**.
@@ -37,6 +37,6 @@ section, paste the URL of the `catalog.yml` file in your repository
 
 
 !!! success
-    Your component should be now available in the [Catalog home](https://).
+    Your component should be now available in the [Catalog home](https://backstage-deployment-1006240973223.europe-west10.run.app/catalog).
 
 
