@@ -1,9 +1,78 @@
 app:
-  baseUrl: https://backstage.foundations-software-engineering.com
+  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
 
 backend:
-  baseUrl: https://backstage.foundations-software-engineering.com
+  baseUrl: https://backstage-deployment-1006240973223.europe-west10.run.app
   cors:
-    origin: https://backstage.foundations-software-engineering.com
+    origin: https://backstage-deployment-1006240973223.europe-west10.run.app
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+
+ database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      database: ${POSTGRES_DB}
+    cache:
+      store: memory
+
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN}
+
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
+
+
+techdocs:
+  builder: 'external'
+  generator:
+    runIn: 'local'
+  publisher:
+    type: 'googleGcs'
+    googleGcs:
+      bucketName: 'backstage-codeidp-techdocs' 
+      projectId: code-idp
+      credentials: ${TECHDOCS_GCS_CREDENTIALS}
+
+# scaffolder:
+
+  
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, User, Group, Resource, Location, Domain]
+  locations:
+    - type: file
+      target: ./examples/template/initiate-deployment.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/register-component.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/sample-document.yaml
+      rules:
+        - allow: [Template]
+        
+
+auth:
+  environment: production
+  providers:
+    google:
+      development:
+        clientId: ${GOOGLE_CLIENT_ID}
+        clientSecret: ${GOOGLE_CLIENT_SECRET}
+
+    github:
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}
