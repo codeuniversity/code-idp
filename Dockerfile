@@ -120,6 +120,7 @@ ARG APP_ENV
 COPY --chown=node:node app-config.yaml ./
 COPY --chown=node:node app-config.docker.yaml ./app-config.docker.yaml
 COPY --chown=node:node app-config.${APP_ENV}.yaml ./app-config.env.yaml
+COPY --chwon=node:node app-config.production.yaml ./app-config.production.yaml
 
 # This will include the examples, if you don't need these simply remove this line
 COPY --chown=node:node examples ./examples
@@ -131,4 +132,4 @@ ENV NODE_ENV=production
 # This disables node snapshot for Node 20 to work with the Scaffolder
 ENV NODE_OPTIONS="--no-node-snapshot"
 
-CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.docker.yaml", "--config", "app-config.env.yaml"]
+CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.docker.yaml", "--config", "app-config.env.yaml" , "config", "app-config.production.yaml"]
