@@ -86,7 +86,6 @@ jobs:
             POSTGRES_PORT=5432
             POSTGRES_USER=postgres
             POSTGRES_DB=postgres
-            BASE_URL=https://backstage.foundations-software-engineering.com
           secrets: |
             POSTGRES_PASSWORD=postgres_password:latest
             GITHUB_TOKEN=github_token:latest
