@@ -35,8 +35,11 @@ jobs:
       - name: Install techdocs-cli
         run: sudo npm install -g @techdocs/cli
 
-      - name: Install mkdocs and mkdocs-plugin
-        run: python3 -m pip install mkdocs-techdocs-core==1.*
+      - name: Install mkdocs and required plugins
+        run: |
+          python3 -m pip install mkdocs-techdocs-core==1.*
+          python3 -m pip install mkdocs-include-markdown-plugin
+
     
       - name: Generate docs site
         run: techdocs-cli generate --no-docker --verbose
