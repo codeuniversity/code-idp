@@ -116,13 +116,11 @@ jobs:
             POSTGRES_DB=postgres
             BASE_URL=https://backstage.foundations-software-engineering.com
           secrets: |
-            POSTGRES_PASSWORD=postgres-password:latest
+            POSTGRES_PASSWORD=postgres_password:latest
             GITHUB_TOKEN=github_token:latest
             GOOGLE_CLIENT_ID=google_client_id:latest
             GOOGLE_CLIENT_SECRET=google_client_secret:latest
             GITHUB_CLIENT_SECRET=github_client_secret:latest
-            PROD_GITHUB_TOKEN=prod_github_token:latest
-            PROD_GITHUB_CLIENT_SECRET=prod_github_client_secret:latest
             GITLAB_TOKEN=gitlab_token:latest
             TECHDOCS_GCS_CREDENTIALS=techdocs_gcs_credentials:latest
           
