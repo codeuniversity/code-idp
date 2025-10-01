@@ -48,10 +48,14 @@ COPY --from=packages --chown=node:node /app/backstage.json ./
 RUN mkdir -p /home/node/.cache/node/corepack/v1 && \
     chown -R node:node /home/node/.cache
 
+# Skip optional dependencies like canvas that aren't needed for Backstage
+ENV YARN_ENABLE_OPTIONAL_DEPENDENCIES=0
+
 #ENV CYPRESS_INSTALL_BINARY=0
 #RUN yarn install --immutable --network-timeout 600000
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn install --immutable
+    yarn install --immutable --mode=skip-build
+
 
 COPY --chown=node:node . .
 
