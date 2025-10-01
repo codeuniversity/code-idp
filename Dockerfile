@@ -54,7 +54,7 @@ ENV YARN_ENABLE_OPTIONAL_DEPENDENCIES=0
 #ENV CYPRESS_INSTALL_BINARY=0
 #RUN yarn install --immutable --network-timeout 600000
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn install --immutable --mode=skip-build
+    yarn install --immutable --inline-builds
 
 
 COPY --chown=node:node . .
