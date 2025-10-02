@@ -8,10 +8,71 @@ backend:
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
 
+ database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      database: ${POSTGRES_DB}
+    cache:
+      store: memory
+
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN}
+
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
+
+
+techdocs:
+  builder: 'external'
+  generator:
+    runIn: 'local'
+  publisher:
+    type: 'googleGcs'
+    googleGcs:
+      bucketName: 'backstage-codeidp-techdocs' 
+      projectId: code-idp
+      credentials: ${TECHDOCS_GCS_CREDENTIALS}
+
+# scaffolder:
+
+  
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, User, Group, Resource, Location, Domain]
+  locations:
+    - type: file
+      target: ./examples/template/initiate-deployment.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/register-component.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/template/sample-document.yaml
+      rules:
+        - allow: [Template]
+        
+
 auth:
   environment: production
   providers:
+    google:
+      development:
+        clientId: ${GOOGLE_CLIENT_ID}
+        clientSecret: ${GOOGLE_CLIENT_SECRET}
+
     github:
-      production:
-        clientId: ${PROD_GITHUB_CLIENT_ID}
-        clientSecret: ${PROD_GITHUB_CLIENT_SECRET}
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}

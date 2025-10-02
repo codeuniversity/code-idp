@@ -5,11 +5,6 @@ nav:
   - Overview:
       - Introduction: 'index.md'
   - Components:
-      - Register Your Software Component: 'how-to-register-a-component.md'
-  - Technical Documentation:
-      - Publish Your Docs: 'how-to-publish-documentation.md'
-  - Deployment:
-      - How to Deploy Your App: 'how-to-deploy-your-app.md'
   - CHANGELOG: 'CHANGELOG.md'
 
 plugins:
