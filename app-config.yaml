@@ -42,11 +42,7 @@ techdocs:
   generator:
     runIn: 'local'
   publisher:
-    type: 'googleGcs'
-    googleGcs:
-      bucketName: 'backstage-codeidp-techdocs' 
-      projectId: code-idp
-      credentials: ${TECHDOCS_GCS_CREDENTIALS}
+    type: 'local'
 
 # scaffolder:
 

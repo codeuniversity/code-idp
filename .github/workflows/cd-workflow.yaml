@@ -69,29 +69,9 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/1006240973223/locations/global/workloadIdentityPools/deploy-backstage/providers/github-actions'
-          service_account: 'deploy-backstage@code-idp.iam.gserviceaccount.com'
-      - id: 'deploy'
-        uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: 'backstage-deployment'
           image: 'europe-west10-docker.pkg.dev/code-idp/backstage-deploy/backstage-image:${{ github.sha }}'
           region: europe-west10
           flags: |
             --port=7007
-            --allow-unauthenticated
-            --add-cloudsql-instances=code-idp:europe-west10:backstage-pg
-          env_vars: |
-            POSTGRES_HOST=/cloudsql/code-idp:europe-west10:backstage-pg
-            POSTGRES_PORT=5432
-            POSTGRES_USER=postgres
-            POSTGRES_DB=postgres
-          secrets: |
-            POSTGRES_PASSWORD=postgres_password:latest
-            GITHUB_TOKEN=github_token:latest
-            GOOGLE_CLIENT_ID=google_client_id:latest
-            GOOGLE_CLIENT_SECRET=google_client_secret:latest
-            GITHUB_CLIENT_ID=github_client_id:latest
-            GITHUB_CLIENT_SECRET=github_client_secret:latest
-            GITLAB_TOKEN=gitlab_token:latest
-            TECHDOCS_GCS_CREDENTIALS=techdocs_gcs_credentials:latest

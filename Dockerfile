@@ -27,7 +27,16 @@ ENV PYTHON=/usr/bin/python3
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential && \
+    apt-get install -y --no-install-recommends \
+        python3 \
+        g++ \
+        build-essential \
+        libcairo2-dev \
+        libpango1.0-dev \
+        libjpeg-dev \
+        libgif-dev \
+        librsvg2-dev \
+        pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 # Enable Corepack (for Yarn management) and install the required Yarn version
@@ -47,6 +56,7 @@ COPY --from=packages --chown=node:node /app/backstage.json ./
 # Pre-create and fix ownership for cache directory
 RUN mkdir -p /home/node/.cache/node/corepack/v1 && \
     chown -R node:node /home/node/.cache
+
 
 #ENV CYPRESS_INSTALL_BINARY=0
 #RUN yarn install --immutable --network-timeout 600000

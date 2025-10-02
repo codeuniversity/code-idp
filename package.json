@@ -49,6 +49,7 @@
     "@backstage/e2e-test-utils": "^0.1.1",
     "@playwright/test": "^1.32.3",
     "@spotify/prettier-config": "^12.0.0",
+    "@techdocs/cli": "^1.9.8",
     "@testing-library/react": "^16.2.0",
     "@types/babel__core": "^7.1.20",
     "@types/babel__preset-env": "^7.4.7",
